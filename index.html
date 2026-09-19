@@ -90,6 +90,15 @@ button,input,select{touch-action:manipulation}
   td.chk input{width:28px;height:28px}
   .goal{display:block;margin:3px 0 0;width:max-content;font-size:.7rem}
 }
+
+.hint{font-size:.88rem;color:var(--muted);margin:0 0 10px}
+.dinp{font:inherit;font-size:16px;padding:6px 8px;min-height:38px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);max-width:100%}
+@media (max-width:600px){
+  td.dt{padding:6px 3px}
+  .dinp{padding:6px 4px;width:132px}
+  th,td{padding-left:5px;padding-right:5px}
+  td:nth-child(3),td:nth-child(5),th:nth-child(3),th:nth-child(5){font-size:.88rem}
+}
 </style>
 </head>
 <body>
@@ -133,9 +142,11 @@ button,input,select{touch-action:manipulation}
   </div>
 
   <div class="actions">
+    <button id="resetDates" type="button">Una scommessa al giorno</button>
     <button id="resetWins" type="button">Azzera le vinte</button>
   </div>
 
+  <p class="hint">Tocca una data nella tabella per cambiarla: le scommesse successive si spostano di conseguenza. Metti la stessa data della riga sopra per più scommesse nello stesso giorno.</p>
   <div class="tablebox">
     <table>
       <thead><tr><th>#</th><th>Data</th><th>Puntata</th><th class="c-m">Moltipl.</th><th>Ritorno se vinta</th><th class="c-n">Netto</th><th style="text-align:center">Vinta</th></tr></thead>
@@ -151,7 +162,7 @@ button,input,select{touch-action:manipulation}
   var eur=new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"});
   var dfmt=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"});
   var MAX=500;
-  var won={};
+  var won={};var gaps={};var curDates=[];
 
   function todayISO(){var d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
 
@@ -161,7 +172,7 @@ button,input,select{touch-action:manipulation}
       if(s){
         $("stake").value=s.stake;$("mult").value=s.mult;$("target").value=s.target;
         $("ttype").value=s.ttype;$("round").checked=!!s.round;$("start").value=s.start||todayISO();
-        won=s.won||{};return;
+        won=s.won||{};gaps=s.gaps||{};return;
       }
     }catch(e){}
     $("start").value=todayISO();
@@ -170,7 +181,7 @@ button,input,select{touch-action:manipulation}
     try{
       localStorage.setItem(KEY,JSON.stringify({
         stake:$("stake").value,mult:$("mult").value,target:$("target").value,
-        ttype:$("ttype").value,round:$("round").checked,start:$("start").value,won:won
+        ttype:$("ttype").value,round:$("round").checked,start:$("start").value,won:won,gaps:gaps
       }));
     }catch(e){}
   }
@@ -189,6 +200,8 @@ button,input,select{touch-action:manipulation}
     return {rows:rows,goal:goal,reached:reached};
   }
 
+  function isoOf(d){var m=d.getMonth()+1,g=d.getDate();return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(g<10?"0":"")+g}
+  function parseD(iso){var p=iso.split("-");return new Date(+p[0],+p[1]-1,+p[2])}
   function addDays(iso,n){
     var p=iso.split("-");var d=new Date(+p[0],+p[1]-1,+p[2]+n);return d;
   }
@@ -207,6 +220,9 @@ button,input,select{touch-action:manipulation}
     }
     var res=build(stake,mult,target,ttype,round);
     var rows=res.rows,n=rows.length,last=rows[n-1];
+    var dates=[start];
+    for(var k=1;k<n;k++){dates.push(isoOf(addDays(dates[k-1],gaps[k]!==undefined?gaps[k]:1)))}
+    curDates=dates;
 
     if(res.reached){
       head.textContent="Servono "+n+(n===1?" scommessa":" scommesse")+" per passare da "+eur.format(stake)+" a "+eur.format(last.r)+".";
@@ -220,7 +236,7 @@ button,input,select{touch-action:manipulation}
     $("sLast").textContent=eur.format(last.p);
     $("sEnd").textContent=eur.format(last.r);
     $("sNet").textContent=eur.format(last.r-stake);
-    $("sDate").textContent=dfmt.format(addDays(start,n-1));
+    $("sDate").textContent=dfmt.format(parseD(dates[n-1]));
 
     // stato: prima riga non vinta = scommessa attuale
     var firstOpen=-1;
@@ -236,7 +252,7 @@ button,input,select{touch-action:manipulation}
       var goalTag=(i===n-1&&res.reached)?'<span class="goal">target</span>':"";
       tr.innerHTML=
         "<td>"+(i+1)+goalTag+"</td>"+
-        "<td>"+dfmt.format(addDays(start,i))+"</td>"+
+        '<td class="dt"><input type="date" class="dinp" data-d="'+i+'" value="'+dates[i]+'"'+(i>0?' min="'+dates[i-1]+'"':"")+' aria-label="Data scommessa '+(i+1)+'"></td>'+
         "<td>"+eur.format(row.p)+"</td>"+
         '<td class="c-m">'+(row.r/row.p).toFixed(3).replace(".",",")+"</td>"+
         "<td>"+eur.format(row.r)+"</td>"+
@@ -258,11 +274,22 @@ button,input,select{touch-action:manipulation}
   });
   $("rows").addEventListener("change",function(e){
     var t=e.target;
+    if(t&&t.dataset&&t.dataset.d!==undefined){
+      var di=+t.dataset.d,v=t.value;
+      if(!v){render();return}
+      if(di===0){$("start").value=v}
+      else{
+        var g=Math.round((parseD(v)-parseD(curDates[di-1]))/86400000);
+        gaps[di]=g<0?0:g;
+      }
+      save();render();return;
+    }
     if(t&&t.dataset&&t.dataset.i!==undefined){
       if(t.checked)won[t.dataset.i]=true;else delete won[t.dataset.i];
       save();render();
     }
   });
+  $("resetDates").addEventListener("click",function(){gaps={};save();render()});
   $("resetWins").addEventListener("click",function(){won={};save();render()});
 
   load();render();
