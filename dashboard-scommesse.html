@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Progressione scommesse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f5f7; --panel:#ffffff; --ink:#14202b; --muted:#5d6b78; --line:#dde3e8;
+  --hl:#fff36b; --hl-ink:#3a3400; --accent:#0f5c8a; --accent-ink:#ffffff; --bad:#b3261e;
+  --now:#e6f1f8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10161c; --panel:#18212a; --ink:#e8eef3; --muted:#93a2af; --line:#2a3641;
+    --hl:#5c5510; --hl-ink:#fff7b0; --accent:#5db3e6; --accent-ink:#08202f; --bad:#ff8a80;
+    --now:#1d2f3d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10161c; --panel:#18212a; --ink:#e8eef3; --muted:#93a2af; --line:#2a3641;
+  --hl:#5c5510; --hl-ink:#fff7b0; --accent:#5db3e6; --accent-ink:#08202f; --bad:#ff8a80;
+  --now:#1d2f3d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45;font-variant-numeric:tabular-nums}
+.wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:1.5rem;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 22px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+.inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px;font-weight:500}
+input[type=number],input[type=date],select{width:100%;font:inherit;font-size:1.05rem;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opts{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:14px}
+.opts label{display:flex;gap:8px;align-items:center;margin:0;color:var(--ink);font-size:.95rem}
+.result{margin:22px 0 16px}
+.result p{font-size:clamp(1.35rem,3.6vw,2rem);font-weight:600;line-height:1.25;margin:0;letter-spacing:-.01em}
+.result small{display:block;color:var(--muted);margin-top:6px;font-size:.95rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat span{display:block;font-size:.82rem;color:var(--muted)}
+.stat b{font-size:1.25rem;font-weight:600}
+.progress{margin:0 0 18px}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.progress div.t{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted);margin-top:6px}
+.tablebox{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{padding:9px 14px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:.85rem;font-weight:600;color:var(--muted);position:sticky;top:0;background:var(--panel)}
+tr.won td{background:var(--hl);color:var(--hl-ink)}
+tr.now td{background:var(--now);font-weight:600}
+tr.last td{border-bottom:0}
+td.chk{text-align:center}
+td.chk input{width:20px;height:20px;accent-color:var(--accent);cursor:pointer}
+.goal{font-size:.8rem;margin-left:8px;padding:2px 8px;border-radius:20px;background:var(--accent);color:var(--accent-ink);font-weight:600}
+.actions{display:flex;gap:10px;margin:0 0 12px;flex-wrap:wrap}
+button{font:inherit;padding:8px 14px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--accent)}
+.err{color:var(--bad);font-weight:500}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+
+html{-webkit-text-size-adjust:100%}
+body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom)}
+button,input,select{touch-action:manipulation}
+@media (max-width:600px){
+  .wrap{padding:16px 12px 48px}
+  h1{font-size:1.3rem}
+  .sub{font-size:.92rem;margin-bottom:16px}
+  .panel{padding:14px}
+  .inputs{grid-template-columns:1fr 1fr;gap:12px}
+  .inputs>div:last-child{grid-column:1/-1}
+  input[type=number],input[type=date],select{font-size:16px;padding:11px 10px;min-height:46px}
+  .opts{margin-top:12px}
+  .opts label{font-size:.9rem;align-items:flex-start}
+  .opts input[type=checkbox]{width:22px;height:22px;flex:none;accent-color:var(--accent)}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
+  .stats .stat:last-child{grid-column:1/-1}
+  .stat b{font-size:1.15rem}
+  .actions button{width:100%;min-height:44px}
+  table{min-width:0}
+  th,td{padding:11px 7px;font-size:.92rem}
+  th:first-child,td:first-child{padding-left:10px}
+  .c-m,.c-n{display:none}
+  td.chk{padding:4px 6px}
+  td.chk input{width:28px;height:28px}
+  .goal{display:block;margin:3px 0 0;width:max-content;font-size:.7rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Progressione scommesse</h1>
+  <p class="sub">Inserisci puntata, moltiplicatore e obiettivo: la tabella mostra ogni scommessa da fare e tiene il conto di quelle vinte.</p>
+
+  <section class="panel" aria-label="Parametri">
+    <div class="inputs">
+      <div><label for="stake">Puntata iniziale (€)</label><input id="stake" type="number" min="0.01" step="0.01" value="10"></div>
+      <div><label for="mult">Moltiplicatore</label><input id="mult" type="number" min="1.001" step="0.01" value="1.1"></div>
+      <div><label for="target">Vincita target (€)</label><input id="target" type="number" min="0.01" step="0.01" value="100"></div>
+      <div><label for="ttype">Il target è</label>
+        <select id="ttype">
+          <option value="final">Importo finale</option>
+          <option value="profit">Guadagno netto</option>
+        </select></div>
+      <div><label for="start">Data prima scommessa</label><input id="start" type="date"></div>
+    </div>
+    <div class="opts">
+      <label><input id="round" type="checkbox"> Arrotonda l'importo all'euro (come nel tuo foglio)</label>
+    </div>
+  </section>
+
+  <section class="result" aria-live="polite">
+    <p id="headline"></p>
+    <small id="detail"></small>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><span>Scommesse necessarie</span><b id="sN">–</b></div>
+    <div class="stat"><span>Ultima puntata</span><b id="sLast">–</b></div>
+    <div class="stat"><span>Importo raggiunto</span><b id="sEnd">–</b></div>
+    <div class="stat"><span>Guadagno netto</span><b id="sNet">–</b></div>
+    <div class="stat"><span>Data prevista target</span><b id="sDate">–</b></div>
+  </div>
+
+  <div class="progress">
+    <div class="bar"><i id="barFill"></i></div>
+    <div class="t"><span id="pText">0 vinte su 0</span><span id="pNext"></span></div>
+  </div>
+
+  <div class="actions">
+    <button id="resetWins" type="button">Azzera le vinte</button>
+  </div>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>#</th><th>Data</th><th>Puntata</th><th class="c-m">Moltipl.</th><th>Ritorno se vinta</th><th class="c-n">Netto</th><th style="text-align:center">Vinta</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY="scommesse-dashboard-v1";
+  var $=function(id){return document.getElementById(id)};
+  var eur=new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"});
+  var dfmt=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"});
+  var MAX=500;
+  var won={};
+
+  function todayISO(){var d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
+
+  function load(){
+    try{
+      var s=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(s){
+        $("stake").value=s.stake;$("mult").value=s.mult;$("target").value=s.target;
+        $("ttype").value=s.ttype;$("round").checked=!!s.round;$("start").value=s.start||todayISO();
+        won=s.won||{};return;
+      }
+    }catch(e){}
+    $("start").value=todayISO();
+  }
+  function save(){
+    try{
+      localStorage.setItem(KEY,JSON.stringify({
+        stake:$("stake").value,mult:$("mult").value,target:$("target").value,
+        ttype:$("ttype").value,round:$("round").checked,start:$("start").value,won:won
+      }));
+    }catch(e){}
+  }
+
+  function build(stake,mult,target,ttype,round){
+    var goal=ttype==="profit"?stake+target:target;
+    var rows=[],p=stake;
+    for(var i=0;i<MAX;i++){
+      var r=p*mult;
+      if(round){r=Math.round(r);if(r<=p)r=p+1}
+      rows.push({p:p,r:r});
+      if(r>=goal-1e-9)break;
+      p=r;
+    }
+    var reached=rows[rows.length-1].r>=goal-1e-9;
+    return {rows:rows,goal:goal,reached:reached};
+  }
+
+  function addDays(iso,n){
+    var p=iso.split("-");var d=new Date(+p[0],+p[1]-1,+p[2]+n);return d;
+  }
+
+  function render(){
+    var stake=parseFloat($("stake").value),mult=parseFloat($("mult").value),target=parseFloat($("target").value);
+    var ttype=$("ttype").value,round=$("round").checked,start=$("start").value||todayISO();
+    var head=$("headline"),det=$("detail"),tb=$("rows");
+    tb.innerHTML="";
+    if(!(stake>0)||!(mult>1)||!(target>0)){
+      head.innerHTML='<span class="err">Controlla i valori: puntata e target maggiori di 0, moltiplicatore maggiore di 1.</span>';
+      det.textContent="";
+      ["sN","sLast","sEnd","sNet","sDate"].forEach(function(k){$(k).textContent="–"});
+      $("barFill").style.width="0";$("pText").textContent="";$("pNext").textContent="";
+      return;
+    }
+    var res=build(stake,mult,target,ttype,round);
+    var rows=res.rows,n=rows.length,last=rows[n-1];
+
+    if(res.reached){
+      head.textContent="Servono "+n+(n===1?" scommessa":" scommesse")+" per passare da "+eur.format(stake)+" a "+eur.format(last.r)+".";
+      det.textContent="Con moltiplicatore "+mult.toString().replace(".",",")+" ×"+n+" il capitale cresce fino a superare il target di "+eur.format(res.goal)+(ttype==="profit"?" (puntata iniziale + guadagno).":".");
+    }else{
+      head.textContent="Il target non è raggiungibile entro "+MAX+" scommesse.";
+      det.textContent="Aumenta il moltiplicatore o abbassa il target.";
+    }
+
+    $("sN").textContent=n;
+    $("sLast").textContent=eur.format(last.p);
+    $("sEnd").textContent=eur.format(last.r);
+    $("sNet").textContent=eur.format(last.r-stake);
+    $("sDate").textContent=dfmt.format(addDays(start,n-1));
+
+    // stato: prima riga non vinta = scommessa attuale
+    var firstOpen=-1;
+    for(var i=0;i<n;i++){if(!won[i]){firstOpen=i;break}}
+    var wonCount=0;for(var j=0;j<n;j++){if(won[j])wonCount++}
+
+    var frag=document.createDocumentFragment();
+    rows.forEach(function(row,i){
+      var tr=document.createElement("tr");
+      if(won[i])tr.className="won";
+      else if(i===firstOpen)tr.className="now";
+      if(i===n-1)tr.className+=" last";
+      var goalTag=(i===n-1&&res.reached)?'<span class="goal">target</span>':"";
+      tr.innerHTML=
+        "<td>"+(i+1)+goalTag+"</td>"+
+        "<td>"+dfmt.format(addDays(start,i))+"</td>"+
+        "<td>"+eur.format(row.p)+"</td>"+
+        '<td class="c-m">'+(row.r/row.p).toFixed(3).replace(".",",")+"</td>"+
+        "<td>"+eur.format(row.r)+"</td>"+
+        '<td class="c-n">'+eur.format(row.r-stake)+"</td>"+
+        '<td class="chk"><input type="checkbox" data-i="'+i+'" aria-label="Scommessa '+(i+1)+' vinta"'+(won[i]?" checked":"")+"></td>";
+      frag.appendChild(tr);
+    });
+    tb.appendChild(frag);
+
+    $("barFill").style.width=(100*wonCount/n)+"%";
+    $("pText").textContent=wonCount+" vinte su "+n;
+    $("pNext").textContent=firstOpen>=0?"Prossima puntata: "+eur.format(rows[firstOpen].p):"Target raggiunto";
+  }
+
+  function onChange(){save();render()}
+  ["stake","mult","target","ttype","round","start"].forEach(function(id){
+    $(id).addEventListener("input",onChange);
+    $(id).addEventListener("change",onChange);
+  });
+  $("rows").addEventListener("change",function(e){
+    var t=e.target;
+    if(t&&t.dataset&&t.dataset.i!==undefined){
+      if(t.checked)won[t.dataset.i]=true;else delete won[t.dataset.i];
+      save();render();
+    }
+  });
+  $("resetWins").addEventListener("click",function(){won={};save();render()});
+
+  load();render();
+})();
+</script>
+</body>
+</html>
