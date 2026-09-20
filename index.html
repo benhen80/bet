@@ -25,98 +25,92 @@
   --now:#1d2f3d;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45;font-variant-numeric:tabular-nums}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45;font-variant-numeric:tabular-nums;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom)}
+button,input,select{touch-action:manipulation}
 .wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}
 h1{font-size:1.5rem;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
 .sub{color:var(--muted);margin:0 0 22px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
 .inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
-label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px;font-weight:500}
-input[type=number],input[type=date],select{width:100%;font:inherit;font-size:1.05rem;padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink)}
+label.l{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px;font-weight:500}
+input[type=number],input[type=date],select{width:100%;font:inherit;font-size:16px;padding:10px;min-height:44px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink)}
 input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .opts{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:14px}
-.opts label{display:flex;gap:8px;align-items:center;margin:0;color:var(--ink);font-size:.95rem}
+.opts label{display:flex;gap:10px;align-items:center;margin:0;font-size:.95rem}
+.opts input{width:22px;height:22px;flex:none;accent-color:var(--accent)}
 .result{margin:22px 0 16px}
-.result p{font-size:clamp(1.35rem,3.6vw,2rem);font-weight:600;line-height:1.25;margin:0;letter-spacing:-.01em}
+.result p{font-size:clamp(1.3rem,3.6vw,1.9rem);font-weight:600;line-height:1.25;margin:0;letter-spacing:-.01em}
 .result small{display:block;color:var(--muted);margin-top:6px;font-size:.95rem}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
 .stat span{display:block;font-size:.82rem;color:var(--muted)}
-.stat b{font-size:1.25rem;font-weight:600}
+.stat b{font-size:1.2rem;font-weight:600}
 .progress{margin:0 0 18px}
 .bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}
 .bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
-.progress div.t{display:flex;justify-content:space-between;font-size:.9rem;color:var(--muted);margin-top:6px}
-.tablebox{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:10px}
-table{width:100%;border-collapse:collapse;min-width:560px}
-th,td{padding:9px 14px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
-th:first-child,td:first-child{text-align:left}
-th{font-size:.85rem;font-weight:600;color:var(--muted);position:sticky;top:0;background:var(--panel)}
-tr.won td{background:var(--hl);color:var(--hl-ink)}
-tr.now td{background:var(--now);font-weight:600}
-tr.last td{border-bottom:0}
-td.chk{text-align:center}
-td.chk input{width:20px;height:20px;accent-color:var(--accent);cursor:pointer}
-.goal{font-size:.8rem;margin-left:8px;padding:2px 8px;border-radius:20px;background:var(--accent);color:var(--accent-ink);font-weight:600}
-.actions{display:flex;gap:10px;margin:0 0 12px;flex-wrap:wrap}
-button{font:inherit;padding:8px 14px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+.progress .t{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;color:var(--muted);margin-top:6px}
+.actions{display:flex;gap:10px;margin:0 0 10px;flex-wrap:wrap}
+button{font:inherit;padding:8px 14px;min-height:44px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
 button:hover{border-color:var(--accent)}
+.hint{font-size:.88rem;color:var(--muted);margin:0 0 10px}
 .err{color:var(--bad);font-weight:500}
-@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 
-html{-webkit-text-size-adjust:100%}
-body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom)}
-button,input,select{touch-action:manipulation}
-@media (max-width:600px){
+/* elenco scommesse */
+#list{display:flex;flex-direction:column;gap:8px}
+.bet{display:grid;grid-template-columns:56px 150px 1fr 1fr 100px 1fr 76px;grid-template-areas:"n date stake win mult cum won";gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.top{display:contents}
+.n{grid-area:n;font-weight:700}
+.date{grid-area:date}
+.stake{grid-area:stake}.win{grid-area:win}.mult{grid-area:mult}.cum{grid-area:cum}
+.wonl{grid-area:won;display:flex;align-items:center;gap:6px;font-size:.9rem;cursor:pointer;margin:0}
+.wonl input{width:26px;height:26px;accent-color:var(--accent)}
+.f span{display:block;font-size:.78rem;color:var(--muted);margin-bottom:2px}
+.f b{font-weight:600;display:flex;align-items:center;min-height:44px}
+.f input.ovr{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.tag{display:inline-block;margin-left:6px;font-size:.7rem;padding:2px 8px;border-radius:20px;background:var(--accent);color:var(--accent-ink);font-weight:600;vertical-align:middle}
+.bet.won{background:var(--hl);color:var(--hl-ink);border-color:var(--hl)}
+.bet.won .f span{color:inherit;opacity:.75}
+.bet.now{background:var(--now);border-color:var(--accent)}
+.bet.tgt{box-shadow:inset 4px 0 0 var(--accent)}
+
+@media (max-width:700px){
   .wrap{padding:16px 12px 48px}
   h1{font-size:1.3rem}
   .sub{font-size:.92rem;margin-bottom:16px}
   .panel{padding:14px}
   .inputs{grid-template-columns:1fr 1fr;gap:12px}
   .inputs>div:last-child{grid-column:1/-1}
-  input[type=number],input[type=date],select{font-size:16px;padding:11px 10px;min-height:46px}
-  .opts{margin-top:12px}
-  .opts label{font-size:.9rem;align-items:flex-start}
-  .opts input[type=checkbox]{width:22px;height:22px;flex:none;accent-color:var(--accent)}
+  .opts label{align-items:flex-start;font-size:.9rem}
   .stats{grid-template-columns:1fr 1fr;gap:10px}
   .stats .stat:last-child{grid-column:1/-1}
-  .stat b{font-size:1.15rem}
-  .actions button{width:100%;min-height:44px}
-  table{min-width:0}
-  th,td{padding:11px 7px;font-size:.92rem}
-  th:first-child,td:first-child{padding-left:10px}
-  .c-m,.c-n{display:none}
-  td.chk{padding:4px 6px}
-  td.chk input{width:28px;height:28px}
-  .goal{display:block;margin:3px 0 0;width:max-content;font-size:.7rem}
+  .stat b{font-size:1.1rem}
+  .actions button{flex:1 1 100%}
+  .bet{grid-template-columns:1fr 1fr;grid-template-areas:"top top" "stake win" "mult cum";gap:8px 10px;padding:10px 12px}
+  .top{display:flex;grid-area:top;align-items:center;gap:10px}
+  .top .date{flex:1;min-width:0}
+  .n{min-width:34px}
+  .f b{min-height:0}
 }
-
-.hint{font-size:.88rem;color:var(--muted);margin:0 0 10px}
-.dinp{font:inherit;font-size:16px;padding:6px 8px;min-height:38px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);max-width:100%}
-@media (max-width:600px){
-  td.dt{padding:6px 3px}
-  .dinp{padding:6px 4px;width:132px}
-  th,td{padding-left:5px;padding-right:5px}
-  td:nth-child(3),td:nth-child(5),th:nth-child(3),th:nth-child(5){font-size:.88rem}
-}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Progressione scommesse</h1>
-  <p class="sub">Inserisci puntata, moltiplicatore e obiettivo: la tabella mostra ogni scommessa da fare e tiene il conto di quelle vinte.</p>
+  <p class="sub">Inserisci puntata iniziale, moltiplicatore e target: la tabella mostra ogni scommessa da fare. Puntata, moltiplicatore e data di ogni riga si possono modificare.</p>
 
   <section class="panel" aria-label="Parametri">
     <div class="inputs">
-      <div><label for="stake">Puntata iniziale (€)</label><input id="stake" type="number" min="0.01" step="0.01" value="10"></div>
-      <div><label for="mult">Moltiplicatore</label><input id="mult" type="number" min="1.001" step="0.01" value="1.1"></div>
-      <div><label for="target">Vincita target (€)</label><input id="target" type="number" min="0.01" step="0.01" value="100"></div>
-      <div><label for="ttype">Il target è</label>
+      <div><label class="l" for="stake">Puntata iniziale (€)</label><input id="stake" type="number" inputmode="decimal" min="0.01" step="any" value="10"></div>
+      <div><label class="l" for="mult">Moltiplicatore predefinito</label><input id="mult" type="number" inputmode="decimal" min="1.001" step="any" value="1.1"></div>
+      <div><label class="l" for="target">Vincita target (€)</label><input id="target" type="number" inputmode="decimal" min="0.01" step="any" value="100"></div>
+      <div><label class="l" for="ttype">Il target è</label>
         <select id="ttype">
           <option value="final">Importo finale</option>
           <option value="profit">Guadagno netto</option>
         </select></div>
-      <div><label for="start">Data prima scommessa</label><input id="start" type="date"></div>
+      <div><label class="l" for="start">Data prima scommessa</label><input id="start" type="date"></div>
     </div>
     <div class="opts">
       <label><input id="round" type="checkbox"> Arrotonda l'importo all'euro (come nel tuo foglio)</label>
@@ -138,161 +132,201 @@ button,input,select{touch-action:manipulation}
 
   <div class="progress">
     <div class="bar"><i id="barFill"></i></div>
-    <div class="t"><span id="pText">0 vinte su 0</span><span id="pNext"></span></div>
+    <div class="t"><span id="pText"></span><span id="pNext"></span></div>
   </div>
 
   <div class="actions">
+    <button id="resetStakes" type="button">Ripristina puntate e moltiplicatori</button>
     <button id="resetDates" type="button">Una scommessa al giorno</button>
     <button id="resetWins" type="button">Azzera le vinte</button>
   </div>
+  <p class="hint">Cambia la puntata di una riga: le successive si ricalcolano da lì con il moltiplicatore (le righe modificate hanno il bordo colorato; svuota il campo per tornare al valore automatico). Il moltiplicatore predefinito vale per tutte le righe, ma puoi cambiarlo per singola scommessa nel campo Moltipl. di ogni riga. Cambia la data di una riga: le successive si spostano di conseguenza; stessa data della riga sopra = più scommesse nello stesso giorno.</p>
 
-  <p class="hint">Tocca una data nella tabella per cambiarla: le scommesse successive si spostano di conseguenza. Metti la stessa data della riga sopra per più scommesse nello stesso giorno.</p>
-  <div class="tablebox">
-    <table>
-      <thead><tr><th>#</th><th>Data</th><th>Puntata</th><th class="c-m">Moltipl.</th><th>Ritorno se vinta</th><th class="c-n">Netto</th><th style="text-align:center">Vinta</th></tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
-  </div>
+  <div id="list"></div>
 </div>
 
 <script>
 (function(){
-  var KEY="scommesse-dashboard-v1";
+  var KEY="scommesse-dashboard-v3";
+  var MAX=500;
   var $=function(id){return document.getElementById(id)};
   var eur=new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"});
   var dfmt=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"});
-  var MAX=500;
-  var won={};var gaps={};var curDates=[];
+  function pad(x){return x<10?"0"+x:""+x}
+  function isoOf(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+  function parseD(iso){var p=iso.split("-");return new Date(+p[0],+p[1]-1,+p[2])}
+  function addDays(iso,n){var d=parseD(iso);d.setDate(d.getDate()+n);return d}
+  function todayISO(){return isoOf(new Date())}
+  function num(v){var x=parseFloat(String(v).replace(",","."));return isNaN(x)?null:x}
+  function fmtIn(x){return String(+x.toFixed(2))}
+  function fmtMult(x){return String(x).replace(".",",")}
 
-  function todayISO(){var d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)}
+  var state={stake:10,mult:1.1,target:100,ttype:"final",round:false,start:todayISO(),ov:{},mov:{},gaps:{},won:{}};
+  var curDates=[];
 
   function load(){
     try{
       var s=JSON.parse(localStorage.getItem(KEY)||"null");
-      if(s){
-        $("stake").value=s.stake;$("mult").value=s.mult;$("target").value=s.target;
-        $("ttype").value=s.ttype;$("round").checked=!!s.round;$("start").value=s.start||todayISO();
-        won=s.won||{};gaps=s.gaps||{};return;
-      }
+      if(s&&typeof s==="object"){for(var k in state){if(s[k]!==undefined)state[k]=s[k]}}
     }catch(e){}
-    $("start").value=todayISO();
+    $("stake").value=state.stake;$("mult").value=state.mult;$("target").value=state.target;
+    $("ttype").value=state.ttype;$("round").checked=!!state.round;$("start").value=state.start;
   }
-  function save(){
-    try{
-      localStorage.setItem(KEY,JSON.stringify({
-        stake:$("stake").value,mult:$("mult").value,target:$("target").value,
-        ttype:$("ttype").value,round:$("round").checked,start:$("start").value,won:won,gaps:gaps
-      }));
-    }catch(e){}
-  }
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
 
-  function build(stake,mult,target,ttype,round){
-    var goal=ttype==="profit"?stake+target:target;
-    var rows=[],p=stake;
+  // calcolo della progressione
+  function compute(){
+    var stake=state.stake,mult=state.mult,target=state.target;
+    if(!(stake>0)||!(mult>1)||!(target>0))return null;
+    var goalNet=state.ttype==="profit"?target:target-stake;
+    var rows=[],prevR=stake,cum=0,reached=false;
     for(var i=0;i<MAX;i++){
-      var r=p*mult;
-      if(round){r=Math.round(r);if(r<=p)r=p+1}
-      rows.push({p:p,r:r});
-      if(r>=goal-1e-9)break;
-      p=r;
+      var p,ovr=false;
+      if(i===0)p=stake;
+      else if(state.ov[i]>0){p=state.ov[i];ovr=true}
+      else p=prevR;
+      var mvr=state.mov[i]>1,m=mvr?state.mov[i]:mult;
+      var r=p*m;
+      if(state.round){r=Math.round(r);if(r<=p)r=p+1}
+      cum+=r-p;
+      rows.push({p:p,r:r,cum:cum,ovr:ovr,m:m,mvr:mvr});
+      prevR=r;
+      if(cum>=goalNet-1e-9){reached=true;break}
     }
-    var reached=rows[rows.length-1].r>=goal-1e-9;
-    return {rows:rows,goal:goal,reached:reached};
+    return {rows:rows,reached:reached};
   }
 
-  function isoOf(d){var m=d.getMonth()+1,g=d.getDate();return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(g<10?"0":"")+g}
-  function parseD(iso){var p=iso.split("-");return new Date(+p[0],+p[1]-1,+p[2])}
-  function addDays(iso,n){
-    var p=iso.split("-");var d=new Date(+p[0],+p[1]-1,+p[2]+n);return d;
+  function makeRow(i){
+    var d=document.createElement("div");
+    d.className="bet";d.dataset.i=i;
+    d.innerHTML=
+      '<div class="top">'+
+        '<div class="n"><b></b><span class="tag" hidden>target</span></div>'+
+        '<input type="date" class="date" data-k="date" aria-label="Data scommessa '+(i+1)+'">'+
+        '<label class="wonl"><input type="checkbox" data-k="won" aria-label="Scommessa '+(i+1)+' vinta"><span>Vinta</span></label>'+
+      '</div>'+
+      '<div class="f stake"><span>Puntata (€)</span><input type="number" inputmode="decimal" step="any" min="0" data-k="s" aria-label="Puntata scommessa '+(i+1)+'"></div>'+
+      '<div class="f win"><span>Ritorno se vinta</span><b data-o="r"></b></div>'+
+      '<div class="f mult"><span>Moltipl.</span><input type="number" inputmode="decimal" step="any" min="1" data-k="m" aria-label="Moltiplicatore scommessa '+(i+1)+'"></div>'+
+      '<div class="f cum"><span>Netto cumulato</span><b data-o="c"></b></div>';
+    return d;
   }
 
-  function render(){
-    var stake=parseFloat($("stake").value),mult=parseFloat($("mult").value),target=parseFloat($("target").value);
-    var ttype=$("ttype").value,round=$("round").checked,start=$("start").value||todayISO();
-    var head=$("headline"),det=$("detail"),tb=$("rows");
-    tb.innerHTML="";
-    if(!(stake>0)||!(mult>1)||!(target>0)){
+  function update(force){
+    var head=$("headline"),det=$("detail"),list=$("list");
+    var res=compute();
+    if(!res){
       head.innerHTML='<span class="err">Controlla i valori: puntata e target maggiori di 0, moltiplicatore maggiore di 1.</span>';
-      det.textContent="";
+      det.textContent="";list.innerHTML="";
       ["sN","sLast","sEnd","sNet","sDate"].forEach(function(k){$(k).textContent="–"});
       $("barFill").style.width="0";$("pText").textContent="";$("pNext").textContent="";
       return;
     }
-    var res=build(stake,mult,target,ttype,round);
-    var rows=res.rows,n=rows.length,last=rows[n-1];
-    var dates=[start];
-    for(var k=1;k<n;k++){dates.push(isoOf(addDays(dates[k-1],gaps[k]!==undefined?gaps[k]:1)))}
+    var rows=res.rows,n=rows.length,last=rows[n-1],i;
+
+    // date a catena
+    var dates=[];
+    for(i=0;i<n;i++){dates.push(i===0?state.start:isoOf(addDays(dates[i-1],state.gaps[i]!=null?state.gaps[i]:1)))}
     curDates=dates;
 
+    // testi
+    var endAmount=state.stake+last.cum;
     if(res.reached){
-      head.textContent="Servono "+n+(n===1?" scommessa":" scommesse")+" per passare da "+eur.format(stake)+" a "+eur.format(last.r)+".";
-      det.textContent="Con moltiplicatore "+mult.toString().replace(".",",")+" ×"+n+" il capitale cresce fino a superare il target di "+eur.format(res.goal)+(ttype==="profit"?" (puntata iniziale + guadagno).":".");
+      head.textContent="Servono "+n+(n===1?" scommessa":" scommesse")+" per passare da "+eur.format(state.stake)+" a "+eur.format(endAmount)+".";
+      var custom=rows.filter(function(x){return x.mvr}).length;
+      det.textContent="Il target di "+eur.format(state.target)+(state.ttype==="profit"?" di guadagno":"")+" viene raggiunto alla scommessa n. "+n+". Moltiplicatore predefinito "+fmtMult(state.mult)+(custom?", personalizzato in "+custom+(custom===1?" riga.":" righe."):".");
     }else{
       head.textContent="Il target non è raggiungibile entro "+MAX+" scommesse.";
       det.textContent="Aumenta il moltiplicatore o abbassa il target.";
     }
-
-    $("sN").textContent=n;
+    $("sN").textContent=res.reached?n:"–";
     $("sLast").textContent=eur.format(last.p);
-    $("sEnd").textContent=eur.format(last.r);
-    $("sNet").textContent=eur.format(last.r-stake);
+    $("sEnd").textContent=eur.format(endAmount);
+    $("sNet").textContent=eur.format(last.cum);
     $("sDate").textContent=dfmt.format(parseD(dates[n-1]));
 
-    // stato: prima riga non vinta = scommessa attuale
-    var firstOpen=-1;
-    for(var i=0;i<n;i++){if(!won[i]){firstOpen=i;break}}
-    var wonCount=0;for(var j=0;j<n;j++){if(won[j])wonCount++}
-
-    var frag=document.createDocumentFragment();
-    rows.forEach(function(row,i){
-      var tr=document.createElement("tr");
-      if(won[i])tr.className="won";
-      else if(i===firstOpen)tr.className="now";
-      if(i===n-1)tr.className+=" last";
-      var goalTag=(i===n-1&&res.reached)?'<span class="goal">target</span>':"";
-      tr.innerHTML=
-        "<td>"+(i+1)+goalTag+"</td>"+
-        '<td class="dt"><input type="date" class="dinp" data-d="'+i+'" value="'+dates[i]+'"'+(i>0?' min="'+dates[i-1]+'"':"")+' aria-label="Data scommessa '+(i+1)+'"></td>'+
-        "<td>"+eur.format(row.p)+"</td>"+
-        '<td class="c-m">'+(row.r/row.p).toFixed(3).replace(".",",")+"</td>"+
-        "<td>"+eur.format(row.r)+"</td>"+
-        '<td class="c-n">'+eur.format(row.r-stake)+"</td>"+
-        '<td class="chk"><input type="checkbox" data-i="'+i+'" aria-label="Scommessa '+(i+1)+' vinta"'+(won[i]?" checked":"")+"></td>";
-      frag.appendChild(tr);
-    });
-    tb.appendChild(frag);
-
+    // stato scommesse
+    var firstOpen=-1,wonCount=0;
+    for(i=0;i<n;i++){if(!state.won[i]){firstOpen=i;break}}
+    for(i=0;i<n;i++){if(state.won[i])wonCount++}
     $("barFill").style.width=(100*wonCount/n)+"%";
     $("pText").textContent=wonCount+" vinte su "+n;
-    $("pNext").textContent=firstOpen>=0?"Prossima puntata: "+eur.format(rows[firstOpen].p):"Target raggiunto";
+    $("pNext").textContent=firstOpen>=0?"Prossima puntata: "+eur.format(rows[firstOpen].p):(res.reached?"Target raggiunto":"");
+
+    // righe: aggiungo o tolgo senza toccare quelle esistenti
+    while(list.children.length<n)list.appendChild(makeRow(list.children.length));
+    while(list.children.length>n)list.removeChild(list.lastChild);
+
+    for(i=0;i<n;i++){
+      var el=list.children[i],row=rows[i];
+      el.className="bet"+(state.won[i]?" won":"")+(i===firstOpen?" now":"")+(res.reached&&i===n-1?" tgt":"");
+      el.querySelector(".n b").textContent="#"+(i+1);
+      el.querySelector(".tag").hidden=!(res.reached&&i===n-1);
+      var di=el.querySelector('[data-k="date"]');
+      di.value=dates[i];
+      if(i>0)di.min=dates[i-1];else di.removeAttribute("min");
+      el.querySelector('[data-k="won"]').checked=!!state.won[i];
+      var si=el.querySelector('[data-k="s"]');
+      if(force||document.activeElement!==si)si.value=fmtIn(row.p);
+      si.classList.toggle("ovr",row.ovr);
+      el.querySelector('[data-o="r"]').textContent=eur.format(row.r);
+      var mi=el.querySelector('[data-k="m"]');
+      if(force||document.activeElement!==mi)mi.value=String(+row.m.toFixed(3));
+      mi.classList.toggle("ovr",row.mvr);
+      el.querySelector('[data-o="c"]').textContent=eur.format(row.cum);
+    }
   }
 
-  function onChange(){save();render()}
-  ["stake","mult","target","ttype","round","start"].forEach(function(id){
-    $(id).addEventListener("input",onChange);
-    $(id).addEventListener("change",onChange);
-  });
-  $("rows").addEventListener("change",function(e){
-    var t=e.target;
-    if(t&&t.dataset&&t.dataset.d!==undefined){
-      var di=+t.dataset.d,v=t.value;
-      if(!v){render();return}
-      if(di===0){$("start").value=v}
-      else{
-        var g=Math.round((parseD(v)-parseD(curDates[di-1]))/86400000);
-        gaps[di]=g<0?0:g;
-      }
-      save();render();return;
-    }
-    if(t&&t.dataset&&t.dataset.i!==undefined){
-      if(t.checked)won[t.dataset.i]=true;else delete won[t.dataset.i];
-      save();render();
-    }
-  });
-  $("resetDates").addEventListener("click",function(){gaps={};save();render()});
-  $("resetWins").addEventListener("click",function(){won={};save();render()});
+  // parametri
+  function bind(id,fn,ev){$(id).addEventListener(ev||"input",function(){fn.call(this);save();update(false)})}
+  bind("stake",function(){state.stake=num(this.value)||0});
+  bind("mult",function(){state.mult=num(this.value)||0});
+  bind("target",function(){state.target=num(this.value)||0});
+  bind("ttype",function(){state.ttype=this.value},"change");
+  bind("round",function(){state.round=this.checked},"change");
+  bind("start",function(){state.start=this.value||todayISO()},"change");
 
-  load();render();
+  // elenco
+  var list=$("list");
+  list.addEventListener("input",function(e){
+    var t=e.target;
+    var k=t.dataset&&t.dataset.k;
+    if(k!=="s"&&k!=="m")return;
+    var i=+t.closest(".bet").dataset.i,v=num(t.value);
+    if(k==="m"){if(v>1)state.mov[i]=v;else delete state.mov[i];save();update(false);return}
+    if(i===0){
+      if(!(v>0))return;
+      state.stake=v;$("stake").value=v;
+    }else{
+      if(v>0)state.ov[i]=v;else delete state.ov[i];
+    }
+    save();update(false);
+  });
+  list.addEventListener("change",function(e){
+    var t=e.target,k=t.dataset&&t.dataset.k;
+    if(!k)return;
+    var i=+t.closest(".bet").dataset.i;
+    if(k==="s"||k==="m"){update(true);return}
+    if(k==="won"){
+      if(t.checked)state.won[i]=true;else delete state.won[i];
+      save();update(false);return;
+    }
+    if(k==="date"){
+      var v=t.value;
+      if(!v){update(true);return}
+      if(i===0){state.start=v;$("start").value=v}
+      else{
+        var g=Math.round((parseD(v)-parseD(curDates[i-1]))/86400000);
+        state.gaps[i]=g<0?0:g;
+      }
+      save();update(false);
+    }
+  });
+  $("resetStakes").addEventListener("click",function(){state.ov={};state.mov={};save();update(true)});
+  $("resetDates").addEventListener("click",function(){state.gaps={};save();update(false)});
+  $("resetWins").addEventListener("click",function(){state.won={};save();update(false)});
+
+  load();update(true);
 })();
 </script>
 </body>
