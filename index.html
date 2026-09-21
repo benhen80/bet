@@ -3,144 +3,126 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Progressione scommesse</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Scommesse</title>
 <style>
 :root{
-  --bg:#f3f5f7; --panel:#ffffff; --ink:#14202b; --muted:#5d6b78; --line:#dde3e8;
-  --hl:#fff36b; --hl-ink:#3a3400; --accent:#0f5c8a; --accent-ink:#ffffff; --bad:#b3261e;
-  --now:#e6f1f8;
+  --bg:#ffffff; --ink:#111417; --muted:#7a838c; --line:#e7eaed;
+  --hl:#fff6a8; --hl-ink:#3a3400; --accent:#0f5c8a; --bad:#b3261e;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#10161c; --panel:#18212a; --ink:#e8eef3; --muted:#93a2af; --line:#2a3641;
-    --hl:#5c5510; --hl-ink:#fff7b0; --accent:#5db3e6; --accent-ink:#08202f; --bad:#ff8a80;
-    --now:#1d2f3d;
+    --bg:#0e1114; --ink:#eceff2; --muted:#7f8993; --line:#242a30;
+    --hl:#4a4510; --hl-ink:#fff7b0; --accent:#6bbbe8; --bad:#ff8a80;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#10161c; --panel:#18212a; --ink:#e8eef3; --muted:#93a2af; --line:#2a3641;
-  --hl:#5c5510; --hl-ink:#fff7b0; --accent:#5db3e6; --accent-ink:#08202f; --bad:#ff8a80;
-  --now:#1d2f3d;
+  --bg:#0e1114; --ink:#eceff2; --muted:#7f8993; --line:#242a30;
+  --hl:#4a4510; --hl-ink:#fff7b0; --accent:#6bbbe8; --bad:#ff8a80;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45;font-variant-numeric:tabular-nums;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.4;font-variant-numeric:tabular-nums;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:640px;margin:0 auto;padding:32px 18px 64px}
+h1{font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 22px}
 button,input,select{touch-action:manipulation}
-.wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px}
-h1{font-size:1.5rem;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
-.sub{color:var(--muted);margin:0 0 22px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
-.inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
-label.l{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px;font-weight:500}
-input[type=number],input[type=date],select{width:100%;font:inherit;font-size:16px;padding:10px;min-height:44px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink)}
-input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.opts{display:flex;flex-wrap:wrap;gap:18px;align-items:center;margin-top:14px}
-.opts label{display:flex;gap:10px;align-items:center;margin:0;font-size:.95rem}
-.opts input{width:22px;height:22px;flex:none;accent-color:var(--accent)}
-.result{margin:22px 0 16px}
-.result p{font-size:clamp(1.3rem,3.6vw,1.9rem);font-weight:600;line-height:1.25;margin:0;letter-spacing:-.01em}
-.result small{display:block;color:var(--muted);margin-top:6px;font-size:.95rem}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
-.stat span{display:block;font-size:.82rem;color:var(--muted)}
-.stat b{font-size:1.2rem;font-weight:600}
-.progress{margin:0 0 18px}
-.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
-.progress .t{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;color:var(--muted);margin-top:6px}
-.actions{display:flex;gap:10px;margin:0 0 10px;flex-wrap:wrap}
-button{font:inherit;padding:8px 14px;min-height:44px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
-button:hover{border-color:var(--accent)}
-.hint{font-size:.88rem;color:var(--muted);margin:0 0 10px}
-.err{color:var(--bad);font-weight:500}
+input,select{font:inherit;font-size:16px;color:inherit;background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:8px 0;min-height:44px;width:100%;min-width:0}
+input[type=number]{-moz-appearance:textfield}
+input[type=date]{-webkit-appearance:none;appearance:none;text-align:left;display:block}
+input:focus,select:focus{outline:none;border-bottom-color:var(--ink)}
+input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+label.l,.f span{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.02em}
 
-/* elenco scommesse */
-#list{display:flex;flex-direction:column;gap:8px}
-.bet{display:grid;grid-template-columns:56px 150px 1fr 1fr 100px 1fr 76px;grid-template-areas:"n date stake win mult cum won";gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.params{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+details.more{margin-top:14px}
+summary{cursor:pointer;font-size:.85rem;color:var(--muted);list-style:none;padding:6px 0;width:max-content}
+summary::-webkit-details-marker{display:none}
+summary::after{content:" +"}
+details[open] summary::after{content:" −"}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin-top:8px}
+.opts .full{grid-column:1/-1}
+.chk{display:flex;gap:10px;align-items:center;font-size:.92rem}
+.chk input{width:22px;height:22px;min-height:0;flex:none;accent-color:var(--accent)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:.85rem;padding:8px 12px;min-height:40px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--muted)}
+.note{font-size:.8rem;color:var(--muted);margin:0}
+
+.result{margin:34px 0 22px}
+.big{display:flex;align-items:baseline;gap:10px}
+.big b{font-size:clamp(3rem,16vw,4.6rem);font-weight:600;line-height:1;letter-spacing:-.03em}
+.big span{font-size:1.1rem;color:var(--muted)}
+#line{margin:10px 0 0;font-size:1.05rem}
+#line2{margin:2px 0 0;font-size:.88rem;color:var(--muted)}
+.err{color:var(--bad)}
+
+.bar{height:2px;background:var(--line);margin:0}
+.bar i{display:block;height:100%;background:var(--ink);width:0;transition:width .25s}
+.meta{display:flex;justify-content:space-between;gap:10px;font-size:.82rem;color:var(--muted);margin:8px 0 18px}
+
+/* elenco */
+#list{border-top:1px solid var(--line)}
+.bet{display:grid;grid-template-columns:28px 128px 1fr 76px 1fr 30px;grid-template-areas:"n date stake mult win won";gap:12px;align-items:end;padding:8px 6px;border-bottom:1px solid var(--line)}
 .top{display:contents}
-.n{grid-area:n;font-weight:700}
+.n{grid-area:n;color:var(--muted);font-size:.85rem;align-self:center}
 .date{grid-area:date}
-.stake{grid-area:stake}.win{grid-area:win}.mult{grid-area:mult}.cum{grid-area:cum}
-.wonl{grid-area:won;display:flex;align-items:center;gap:6px;font-size:.9rem;cursor:pointer;margin:0}
-.wonl input{width:26px;height:26px;accent-color:var(--accent)}
-.f span{display:block;font-size:.78rem;color:var(--muted);margin-bottom:2px}
-.f b{font-weight:600;display:flex;align-items:center;min-height:44px}
-.f input.ovr{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-.tag{display:inline-block;margin-left:6px;font-size:.7rem;padding:2px 8px;border-radius:20px;background:var(--accent);color:var(--accent-ink);font-weight:600;vertical-align:middle}
-.bet.won{background:var(--hl);color:var(--hl-ink);border-color:var(--hl)}
-.bet.won .f span{color:inherit;opacity:.75}
-.bet.now{background:var(--now);border-color:var(--accent)}
-.bet.tgt{box-shadow:inset 4px 0 0 var(--accent)}
+.stake{grid-area:stake}.mult{grid-area:mult}.win{grid-area:win}
+.wonl{grid-area:won;display:flex;align-items:center;justify-content:center;margin:0;cursor:pointer;align-self:center}
+.wonl input{width:24px;height:24px;min-height:0;accent-color:var(--accent)}
+.f b{display:block;font-weight:500;padding:8px 0;min-height:44px;line-height:28px}
+.f input.ovr{border-bottom-color:var(--accent)}
+.bet.won{background:var(--hl);color:var(--hl-ink)}
+.bet.won .f span,.bet.won .n{color:inherit;opacity:.7}
+.bet.won input{border-bottom-color:transparent}
+.bet.now{box-shadow:inset 3px 0 0 var(--accent)}
 
-@media (max-width:700px){
-  .wrap{padding:16px 12px 48px}
-  h1{font-size:1.3rem}
-  .sub{font-size:.92rem;margin-bottom:16px}
-  .panel{padding:14px}
-  .inputs{grid-template-columns:1fr 1fr;gap:12px}
-  .inputs>div:last-child{grid-column:1/-1}
-  .opts label{align-items:flex-start;font-size:.9rem}
-  .stats{grid-template-columns:1fr 1fr;gap:10px}
-  .stats .stat:last-child{grid-column:1/-1}
-  .stat b{font-size:1.1rem}
-  .actions button{flex:1 1 100%}
-  .bet{grid-template-columns:1fr 1fr;grid-template-areas:"top top" "stake win" "mult cum";gap:8px 10px;padding:10px 12px}
-  .top{display:flex;grid-area:top;align-items:center;gap:10px}
-  .top .date{flex:1;min-width:0}
-  .n{min-width:34px}
-  .f b{min-height:0}
+@media (max-width:600px){
+  .wrap{padding:22px 16px 56px}
+  .params{gap:14px}
+  .bet{grid-template-columns:1fr 84px 1fr;grid-template-areas:"top top top" "stake mult win";gap:0 14px;padding:10px 4px 8px}
+  .top{display:flex;grid-area:top;align-items:center;gap:12px}
+  .top .date{flex:1}
+  .n{min-width:22px}
+  .wonl{margin-left:auto}
+  .wonl input{width:28px;height:28px}
 }
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Progressione scommesse</h1>
-  <p class="sub">Inserisci puntata iniziale, moltiplicatore e target: la tabella mostra ogni scommessa da fare. Puntata, moltiplicatore e data di ogni riga si possono modificare.</p>
+  <h1>Scommesse</h1>
 
-  <section class="panel" aria-label="Parametri">
-    <div class="inputs">
-      <div><label class="l" for="stake">Puntata iniziale (€)</label><input id="stake" type="number" inputmode="decimal" min="0.01" step="any" value="10"></div>
-      <div><label class="l" for="mult">Moltiplicatore predefinito</label><input id="mult" type="number" inputmode="decimal" min="1.001" step="any" value="1.1"></div>
-      <div><label class="l" for="target">Vincita target (€)</label><input id="target" type="number" inputmode="decimal" min="0.01" step="any" value="100"></div>
-      <div><label class="l" for="ttype">Il target è</label>
-        <select id="ttype">
-          <option value="final">Importo finale</option>
-          <option value="profit">Guadagno netto</option>
-        </select></div>
-      <div><label class="l" for="start">Data prima scommessa</label><input id="start" type="date"></div>
-    </div>
-    <div class="opts">
-      <label><input id="round" type="checkbox"> Arrotonda l'importo all'euro (come nel tuo foglio)</label>
-    </div>
+  <section class="params" aria-label="Parametri">
+    <div><label class="l" for="stake">Puntata (€)</label><input id="stake" type="number" inputmode="decimal" min="0.01" step="any" value="10"></div>
+    <div><label class="l" for="mult">Moltiplicatore</label><input id="mult" type="number" inputmode="decimal" min="1.001" step="any" value="1.1"></div>
+    <div><label class="l" for="target">Target (€)</label><input id="target" type="number" inputmode="decimal" min="0.01" step="any" value="100"></div>
   </section>
+
+  <details class="more">
+    <summary>Opzioni</summary>
+    <div class="opts">
+      <div><label class="l" for="ttype">Il target è</label>
+        <select id="ttype"><option value="final">Importo finale</option><option value="profit">Guadagno netto</option></select></div>
+      <div><label class="l" for="start">Prima scommessa</label><input id="start" type="date"></div>
+      <label class="chk full"><input id="round" type="checkbox"> Arrotonda gli importi all'euro</label>
+      <div class="btns full">
+        <button id="resetStakes" type="button">Ripristina puntate e moltipl.</button>
+        <button id="resetDates" type="button">Una scommessa al giorno</button>
+        <button id="resetWins" type="button">Azzera vinte</button>
+      </div>
+      <p class="note full">Puntata, moltiplicatore e data di ogni riga si possono cambiare: le righe successive si aggiornano. Una riga modificata ha la sottolineatura colorata; svuota il campo per tornare al valore automatico. Stessa data della riga sopra = più scommesse nello stesso giorno.</p>
+    </div>
+  </details>
 
   <section class="result" aria-live="polite">
-    <p id="headline"></p>
-    <small id="detail"></small>
+    <div class="big"><b id="bigN">–</b><span id="bigL">scommesse</span></div>
+    <p id="line"></p>
+    <p id="line2"></p>
   </section>
 
-  <div class="stats">
-    <div class="stat"><span>Scommesse necessarie</span><b id="sN">–</b></div>
-    <div class="stat"><span>Ultima puntata</span><b id="sLast">–</b></div>
-    <div class="stat"><span>Importo raggiunto</span><b id="sEnd">–</b></div>
-    <div class="stat"><span>Guadagno netto</span><b id="sNet">–</b></div>
-    <div class="stat"><span>Data prevista target</span><b id="sDate">–</b></div>
-  </div>
-
-  <div class="progress">
-    <div class="bar"><i id="barFill"></i></div>
-    <div class="t"><span id="pText"></span><span id="pNext"></span></div>
-  </div>
-
-  <div class="actions">
-    <button id="resetStakes" type="button">Ripristina puntate e moltiplicatori</button>
-    <button id="resetDates" type="button">Una scommessa al giorno</button>
-    <button id="resetWins" type="button">Azzera le vinte</button>
-  </div>
-  <p class="hint">Cambia la puntata di una riga: le successive si ricalcolano da lì con il moltiplicatore (le righe modificate hanno il bordo colorato; svuota il campo per tornare al valore automatico). Il moltiplicatore predefinito vale per tutte le righe, ma puoi cambiarlo per singola scommessa nel campo Moltipl. di ogni riga. Cambia la data di una riga: le successive si spostano di conseguenza; stessa data della riga sopra = più scommesse nello stesso giorno.</p>
+  <div class="bar"><i id="barFill"></i></div>
+  <div class="meta"><span id="pText"></span><span id="pNext"></span></div>
 
   <div id="list"></div>
 </div>
@@ -159,7 +141,6 @@ button:hover{border-color:var(--accent)}
   function todayISO(){return isoOf(new Date())}
   function num(v){var x=parseFloat(String(v).replace(",","."));return isNaN(x)?null:x}
   function fmtIn(x){return String(+x.toFixed(2))}
-  function fmtMult(x){return String(x).replace(".",",")}
 
   var state={stake:10,mult:1.1,target:100,ttype:"final",round:false,start:todayISO(),ov:{},mov:{},gaps:{},won:{}};
   var curDates=[];
@@ -174,7 +155,6 @@ button:hover{border-color:var(--accent)}
   }
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
 
-  // calcolo della progressione
   function compute(){
     var stake=state.stake,mult=state.mult,target=state.target;
     if(!(stake>0)||!(mult>1)||!(target>0))return null;
@@ -201,67 +181,59 @@ button:hover{border-color:var(--accent)}
     d.className="bet";d.dataset.i=i;
     d.innerHTML=
       '<div class="top">'+
-        '<div class="n"><b></b><span class="tag" hidden>target</span></div>'+
+        '<span class="n"></span>'+
         '<input type="date" class="date" data-k="date" aria-label="Data scommessa '+(i+1)+'">'+
-        '<label class="wonl"><input type="checkbox" data-k="won" aria-label="Scommessa '+(i+1)+' vinta"><span>Vinta</span></label>'+
+        '<label class="wonl"><input type="checkbox" data-k="won" aria-label="Scommessa '+(i+1)+' vinta"></label>'+
       '</div>'+
-      '<div class="f stake"><span>Puntata (€)</span><input type="number" inputmode="decimal" step="any" min="0" data-k="s" aria-label="Puntata scommessa '+(i+1)+'"></div>'+
-      '<div class="f win"><span>Ritorno se vinta</span><b data-o="r"></b></div>'+
+      '<div class="f stake"><span>Puntata</span><input type="number" inputmode="decimal" step="any" min="0" data-k="s" aria-label="Puntata scommessa '+(i+1)+'"></div>'+
       '<div class="f mult"><span>Moltipl.</span><input type="number" inputmode="decimal" step="any" min="1" data-k="m" aria-label="Moltiplicatore scommessa '+(i+1)+'"></div>'+
-      '<div class="f cum"><span>Netto cumulato</span><b data-o="c"></b></div>';
+      '<div class="f win"><span data-o="wl">Ritorno</span><b data-o="r"></b></div>';
     return d;
   }
 
   function update(force){
-    var head=$("headline"),det=$("detail"),list=$("list");
+    var list=$("list"),i;
     var res=compute();
     if(!res){
-      head.innerHTML='<span class="err">Controlla i valori: puntata e target maggiori di 0, moltiplicatore maggiore di 1.</span>';
-      det.textContent="";list.innerHTML="";
-      ["sN","sLast","sEnd","sNet","sDate"].forEach(function(k){$(k).textContent="–"});
+      $("bigN").textContent="–";$("bigL").textContent="scommesse";
+      $("line").innerHTML='<span class="err">Puntata e target maggiori di 0, moltiplicatore maggiore di 1.</span>';
+      $("line2").textContent="";list.innerHTML="";
       $("barFill").style.width="0";$("pText").textContent="";$("pNext").textContent="";
       return;
     }
-    var rows=res.rows,n=rows.length,last=rows[n-1],i;
+    var rows=res.rows,n=rows.length,last=rows[n-1];
 
-    // date a catena
     var dates=[];
     for(i=0;i<n;i++){dates.push(i===0?state.start:isoOf(addDays(dates[i-1],state.gaps[i]!=null?state.gaps[i]:1)))}
     curDates=dates;
 
-    // testi
     var endAmount=state.stake+last.cum;
     if(res.reached){
-      head.textContent="Servono "+n+(n===1?" scommessa":" scommesse")+" per passare da "+eur.format(state.stake)+" a "+eur.format(endAmount)+".";
-      var custom=rows.filter(function(x){return x.mvr}).length;
-      det.textContent="Il target di "+eur.format(state.target)+(state.ttype==="profit"?" di guadagno":"")+" viene raggiunto alla scommessa n. "+n+". Moltiplicatore predefinito "+fmtMult(state.mult)+(custom?", personalizzato in "+custom+(custom===1?" riga.":" righe."):".");
+      $("bigN").textContent=n;
+      $("bigL").textContent=n===1?"scommessa":"scommesse";
+      $("line").textContent=eur.format(state.stake)+" → "+eur.format(endAmount);
+      $("line2").textContent="Ultima puntata "+eur.format(last.p)+" · guadagno "+eur.format(last.cum)+" · fine "+dfmt.format(parseD(dates[n-1]));
     }else{
-      head.textContent="Il target non è raggiungibile entro "+MAX+" scommesse.";
-      det.textContent="Aumenta il moltiplicatore o abbassa il target.";
+      $("bigN").textContent="–";
+      $("bigL").textContent="target non raggiungibile";
+      $("line").textContent="Aumenta il moltiplicatore o abbassa il target.";
+      $("line2").textContent="";
     }
-    $("sN").textContent=res.reached?n:"–";
-    $("sLast").textContent=eur.format(last.p);
-    $("sEnd").textContent=eur.format(endAmount);
-    $("sNet").textContent=eur.format(last.cum);
-    $("sDate").textContent=dfmt.format(parseD(dates[n-1]));
 
-    // stato scommesse
     var firstOpen=-1,wonCount=0;
     for(i=0;i<n;i++){if(!state.won[i]){firstOpen=i;break}}
     for(i=0;i<n;i++){if(state.won[i])wonCount++}
     $("barFill").style.width=(100*wonCount/n)+"%";
     $("pText").textContent=wonCount+" vinte su "+n;
-    $("pNext").textContent=firstOpen>=0?"Prossima puntata: "+eur.format(rows[firstOpen].p):(res.reached?"Target raggiunto":"");
+    $("pNext").textContent=firstOpen>=0?"Prossima puntata "+eur.format(rows[firstOpen].p):(res.reached?"Target raggiunto":"");
 
-    // righe: aggiungo o tolgo senza toccare quelle esistenti
     while(list.children.length<n)list.appendChild(makeRow(list.children.length));
     while(list.children.length>n)list.removeChild(list.lastChild);
 
     for(i=0;i<n;i++){
       var el=list.children[i],row=rows[i];
-      el.className="bet"+(state.won[i]?" won":"")+(i===firstOpen?" now":"")+(res.reached&&i===n-1?" tgt":"");
-      el.querySelector(".n b").textContent="#"+(i+1);
-      el.querySelector(".tag").hidden=!(res.reached&&i===n-1);
+      el.className="bet"+(state.won[i]?" won":"")+(i===firstOpen?" now":"");
+      el.querySelector(".n").textContent=i+1;
       var di=el.querySelector('[data-k="date"]');
       di.value=dates[i];
       if(i>0)di.min=dates[i-1];else di.removeAttribute("min");
@@ -269,15 +241,14 @@ button:hover{border-color:var(--accent)}
       var si=el.querySelector('[data-k="s"]');
       if(force||document.activeElement!==si)si.value=fmtIn(row.p);
       si.classList.toggle("ovr",row.ovr);
-      el.querySelector('[data-o="r"]').textContent=eur.format(row.r);
       var mi=el.querySelector('[data-k="m"]');
       if(force||document.activeElement!==mi)mi.value=String(+row.m.toFixed(3));
       mi.classList.toggle("ovr",row.mvr);
-      el.querySelector('[data-o="c"]').textContent=eur.format(row.cum);
+      el.querySelector('[data-o="wl"]').textContent=(res.reached&&i===n-1)?"Ritorno · target":"Ritorno";
+      el.querySelector('[data-o="r"]').textContent=eur.format(row.r);
     }
   }
 
-  // parametri
   function bind(id,fn,ev){$(id).addEventListener(ev||"input",function(){fn.call(this);save();update(false)})}
   bind("stake",function(){state.stake=num(this.value)||0});
   bind("mult",function(){state.mult=num(this.value)||0});
@@ -286,7 +257,6 @@ button:hover{border-color:var(--accent)}
   bind("round",function(){state.round=this.checked},"change");
   bind("start",function(){state.start=this.value||todayISO()},"change");
 
-  // elenco
   var list=$("list");
   list.addEventListener("input",function(e){
     var t=e.target;
