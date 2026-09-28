@@ -6,101 +6,128 @@
 <title>Scommesse</title>
 <style>
 :root{
-  --bg:#ffffff; --ink:#111417; --muted:#7a838c; --line:#e7eaed;
-  --hl:#fff6a8; --hl-ink:#3a3400; --accent:#0f5c8a; --bad:#b3261e;
+  --bg:#ffffff; --field:#f1f3f5; --ink:#111417; --muted:#7a838c; --line:#e7eaed;
+  --hl:#fff6a8; --hl-ink:#3a3400; --accent:#0f5c8a; --accent-ink:#ffffff; --bad:#b3261e;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0e1114; --ink:#eceff2; --muted:#7f8993; --line:#242a30;
-    --hl:#4a4510; --hl-ink:#fff7b0; --accent:#6bbbe8; --bad:#ff8a80;
+    --bg:#0e1114; --field:#1a1f24; --ink:#eceff2; --muted:#7f8993; --line:#242a30;
+    --hl:#4a4510; --hl-ink:#fff7b0; --accent:#6bbbe8; --accent-ink:#08202f; --bad:#ff8a80;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0e1114; --ink:#eceff2; --muted:#7f8993; --line:#242a30;
-  --hl:#4a4510; --hl-ink:#fff7b0; --accent:#6bbbe8; --bad:#ff8a80;
+  --bg:#0e1114; --field:#1a1f24; --ink:#eceff2; --muted:#7f8993; --line:#242a30;
+  --hl:#4a4510; --hl-ink:#fff7b0; --accent:#6bbbe8; --accent-ink:#08202f; --bad:#ff8a80;
 }
 *{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.4;font-variant-numeric:tabular-nums;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom)}
-.wrap{max-width:640px;margin:0 auto;padding:32px 18px 64px}
-h1{font-size:.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 22px}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.3;font-variant-numeric:tabular-nums}
+.app{height:100vh;height:100dvh;max-width:560px;margin:0 auto;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 8px) calc(env(safe-area-inset-right) + 12px) calc(env(safe-area-inset-bottom) + 6px) calc(env(safe-area-inset-left) + 12px)}
 button,input,select{touch-action:manipulation}
-input,select{font:inherit;font-size:16px;color:inherit;background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:8px 0;min-height:44px;width:100%;min-width:0}
-input[type=number]{-moz-appearance:textfield}
-input[type=date]{-webkit-appearance:none;appearance:none;text-align:left;display:block}
-input:focus,select:focus{outline:none;border-bottom-color:var(--ink)}
-input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-label.l,.f span{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.02em}
+input,select{font:inherit;font-size:16px;color:inherit;background:var(--field);border:0;border-radius:7px;min-width:0;width:100%}
+input[type=number]{-moz-appearance:textfield;text-align:right;padding:0 8px;height:32px}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:0}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+label.l{display:block;font-size:.66rem;color:var(--muted);margin:0 0 1px 2px}
+button{font:inherit;font-size:.85rem;padding:8px 12px;min-height:38px;border-radius:7px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
 
-.params{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-
-details.more{margin-top:14px}
-summary{cursor:pointer;font-size:.85rem;color:var(--muted);list-style:none;padding:6px 0;width:max-content}
-summary::-webkit-details-marker{display:none}
-summary::after{content:" +"}
-details[open] summary::after{content:" −"}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin-top:8px}
-.opts .full{grid-column:1/-1}
-.chk{display:flex;gap:10px;align-items:center;font-size:.92rem}
-.chk input{width:22px;height:22px;min-height:0;flex:none;accent-color:var(--accent)}
-.btns{display:flex;flex-wrap:wrap;gap:8px}
-button{font:inherit;font-size:.85rem;padding:8px 12px;min-height:40px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
-button:hover{border-color:var(--muted)}
-.note{font-size:.8rem;color:var(--muted);margin:0}
-
-.result{margin:34px 0 22px}
-.big{display:flex;align-items:baseline;gap:10px}
-.big b{font-size:clamp(3rem,16vw,4.6rem);font-weight:600;line-height:1;letter-spacing:-.03em}
-.big span{font-size:1.1rem;color:var(--muted)}
-#line{margin:10px 0 0;font-size:1.05rem}
-#line2{margin:2px 0 0;font-size:.88rem;color:var(--muted)}
+/* riepilogo */
+.sum{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex:none}
+.sum .a{display:flex;align-items:baseline;gap:6px}
+.sum b{font-size:1.7rem;font-weight:700;line-height:1;letter-spacing:-.02em}
+.sum .u{font-size:.85rem;color:var(--muted)}
+.sum .r{font-size:.92rem;font-weight:600;white-space:nowrap}
+.sub2{font-size:.72rem;color:var(--muted);margin:2px 0 5px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:3px;background:var(--line);border-radius:2px;overflow:hidden;flex:none}
+.bar i{display:block;height:100%;background:var(--ink);width:0;transition:width .25s}
 .err{color:var(--bad)}
 
-.bar{height:2px;background:var(--line);margin:0}
-.bar i{display:block;height:100%;background:var(--ink);width:0;transition:width .25s}
-.meta{display:flex;justify-content:space-between;gap:10px;font-size:.82rem;color:var(--muted);margin:8px 0 18px}
+/* parametri */
+.params{display:grid;grid-template-columns:1fr 1fr 1fr 40px;gap:8px;align-items:end;margin:8px 0 0;flex:none}
+.params input{height:38px}
+#gear{min-height:38px;height:38px;padding:0;font-size:1.05rem;line-height:1}
 
-/* elenco */
-#list{border-top:1px solid var(--line)}
-.bet{display:grid;grid-template-columns:28px 128px 1fr 76px 1fr 30px;grid-template-areas:"n date stake mult win won";gap:12px;align-items:end;padding:8px 6px;border-bottom:1px solid var(--line)}
-.top{display:contents}
-.n{grid-area:n;color:var(--muted);font-size:.85rem;align-self:center}
-.date{grid-area:date}
-.stake{grid-area:stake}.mult{grid-area:mult}.win{grid-area:win}
-.wonl{grid-area:won;display:flex;align-items:center;justify-content:center;margin:0;cursor:pointer;align-self:center}
-.wonl input{width:24px;height:24px;min-height:0;accent-color:var(--accent)}
-.f b{display:block;font-weight:500;padding:8px 0;min-height:44px;line-height:28px}
-.f input.ovr{border-bottom-color:var(--accent)}
-.bet.won{background:var(--hl);color:var(--hl-ink)}
-.bet.won .f span,.bet.won .n{color:inherit;opacity:.7}
-.bet.won input{border-bottom-color:transparent}
+/* scommessa attuale */
+.now{display:flex;align-items:center;gap:8px;margin:8px 0;padding:6px 6px 6px 12px;border-radius:12px;background:var(--field);flex:none}
+.now .t{flex:1;min-width:0}
+.now .t small{display:block;font-size:.68rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.now .t b{font-size:1.05rem;font-weight:650;white-space:nowrap}
+.now .done{font-weight:600}
+#win{background:var(--accent);color:var(--accent-ink);border:0;font-weight:700;font-size:1rem;min-height:44px;padding:0 20px;border-radius:9px}
+#win:active{opacity:.85}
+#undo{min-height:44px;min-width:44px;padding:0;font-size:1.1rem;border-radius:9px}
+#undo:disabled,#win:disabled{opacity:.35}
+
+/* elenco: occupa lo spazio rimasto e scorre all'interno */
+.grid{display:grid;grid-template-columns:22px 46px 1fr 50px 1fr 28px;column-gap:6px;align-items:center}
+.hd{font-size:.62rem;color:var(--muted);padding:0 4px 3px;text-transform:uppercase;letter-spacing:.04em;flex:none}
+.hd span:nth-child(3),.hd span:nth-child(4),.hd span:nth-child(5){text-align:right;padding-right:2px}
+.hd span:nth-child(6){text-align:center}
+#list{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;border-top:1px solid var(--line);scrollbar-width:none}
+#list::-webkit-scrollbar{display:none}
+.bet{padding:2px 4px;border-bottom:1px solid var(--line)}
+.n{font-size:.78rem;color:var(--muted)}
+.dt{position:relative;display:block;height:32px;line-height:32px;font-size:.85rem;margin:0}
+.dt input{position:absolute;inset:0;opacity:0;width:100%;height:100%;padding:0;cursor:pointer}
+.r{font-weight:600;text-align:right;padding-right:2px;white-space:nowrap;font-size:.95rem}
+.bet input[type=checkbox]{width:24px;height:24px;justify-self:center;accent-color:var(--accent);background:none}
+.f-ovr{box-shadow:inset 0 -2px 0 var(--accent)}
+.bet.won{background:var(--hl);color:var(--hl-ink);border-bottom-color:transparent}
+.bet.won .n{color:inherit;opacity:.65}
+.bet.won input[type=number]{background:transparent;-webkit-text-fill-color:currentColor;color:inherit;opacity:1}
 .bet.now{box-shadow:inset 3px 0 0 var(--accent)}
+.bet.tgt .r::after{content:" ◎"}
 
-@media (max-width:600px){
-  .wrap{padding:22px 16px 56px}
-  .params{gap:14px}
-  .bet{grid-template-columns:1fr 84px 1fr;grid-template-areas:"top top top" "stake mult win";gap:0 14px;padding:10px 4px 8px}
-  .top{display:flex;grid-area:top;align-items:center;gap:12px}
-  .top .date{flex:1}
-  .n{min-width:22px}
-  .wonl{margin-left:auto}
-  .wonl input{width:28px;height:28px}
-}
+/* pannello opzioni */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end}
+.sheet[hidden]{display:none}
+.bk{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.pn{position:relative;width:100%;max-width:560px;margin:0 auto;background:var(--bg);border-radius:16px 16px 0 0;padding:16px 14px calc(env(safe-area-inset-bottom) + 16px);max-height:90dvh;overflow:auto}
+.pn h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 12px;font-weight:600}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opts .full{grid-column:1/-1}
+.opts select{height:40px;padding:0 8px}
+.opts input[type=date]{height:40px;padding:0 8px;-webkit-appearance:none;appearance:none;text-align:left}
+.chk{display:flex;gap:10px;align-items:center;font-size:.9rem}
+.chk input{width:22px;height:22px;flex:none;accent-color:var(--accent)}
+.btns{display:flex;flex-wrap:wrap;gap:6px}
+.note{font-size:.74rem;color:var(--muted);margin:0}
+#close{width:100%;background:var(--ink);color:var(--bg);border:0;font-weight:600;min-height:44px}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Scommesse</h1>
+<div class="app">
+
+  <div class="sum">
+    <div class="a"><b id="bigN">–</b><span class="u" id="bigL">scommesse</span></div>
+    <div class="r" id="range"></div>
+  </div>
+  <div class="sub2" id="sub"></div>
+  <div class="bar"><i id="barFill"></i></div>
 
   <section class="params" aria-label="Parametri">
-    <div><label class="l" for="stake">Puntata (€)</label><input id="stake" type="number" inputmode="decimal" min="0.01" step="any" value="10"></div>
-    <div><label class="l" for="mult">Moltiplicatore</label><input id="mult" type="number" inputmode="decimal" min="1.001" step="any" value="1.1"></div>
-    <div><label class="l" for="target">Target (€)</label><input id="target" type="number" inputmode="decimal" min="0.01" step="any" value="100"></div>
+    <div><label class="l" for="stake">Puntata €</label><input id="stake" type="number" inputmode="decimal" min="0.01" step="any" value="10"></div>
+    <div><label class="l" for="mult">Moltiplic.</label><input id="mult" type="number" inputmode="decimal" min="1.001" step="any" value="1.1"></div>
+    <div><label class="l" for="target">Target €</label><input id="target" type="number" inputmode="decimal" min="0.01" step="any" value="100"></div>
+    <button id="gear" type="button" aria-label="Opzioni" title="Opzioni">⚙</button>
   </section>
 
-  <details class="more">
-    <summary>Opzioni</summary>
+  <section class="now" aria-live="polite">
+    <div class="t"><small id="nowL">Prossima</small><b id="nowV">–</b></div>
+    <button id="undo" type="button" aria-label="Annulla ultima vinta" title="Annulla ultima vinta">↩</button>
+    <button id="win" type="button">Vinta ✓</button>
+  </section>
+
+  <div class="grid hd"><span>#</span><span>Data</span><span>Puntata</span><span>Molt.</span><span>Ritorno</span><span>✓</span></div>
+  <div id="list"></div>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="bk" id="bk"></div>
+  <div class="pn" role="dialog" aria-label="Opzioni">
+    <h2>Opzioni</h2>
     <div class="opts">
       <div><label class="l" for="ttype">Il target è</label>
         <select id="ttype"><option value="final">Importo finale</option><option value="profit">Guadagno netto</option></select></div>
@@ -108,23 +135,13 @@ button:hover{border-color:var(--muted)}
       <label class="chk full"><input id="round" type="checkbox"> Arrotonda gli importi all'euro</label>
       <div class="btns full">
         <button id="resetStakes" type="button">Ripristina puntate e moltipl.</button>
-        <button id="resetDates" type="button">Una scommessa al giorno</button>
+        <button id="resetDates" type="button">1 scommessa al giorno</button>
         <button id="resetWins" type="button">Azzera vinte</button>
       </div>
-      <p class="note full">Puntata, moltiplicatore e data di ogni riga si possono cambiare: le righe successive si aggiornano. Una riga modificata ha la sottolineatura colorata; svuota il campo per tornare al valore automatico. Stessa data della riga sopra = più scommesse nello stesso giorno.</p>
+      <p class="note full">Puntata, moltiplicatore e data di ogni riga si cambiano toccandoli: le righe dopo si aggiornano (sottolineatura colorata = modificato a mano; svuota il campo per tornare automatico). Stessa data della riga sopra = più scommesse nello stesso giorno. Una riga vinta resta bloccata anche se cambi i parametri: cambiano solo le scommesse ancora da giocare.</p>
+      <button id="close" class="full" type="button">Chiudi</button>
     </div>
-  </details>
-
-  <section class="result" aria-live="polite">
-    <div class="big"><b id="bigN">–</b><span id="bigL">scommesse</span></div>
-    <p id="line"></p>
-    <p id="line2"></p>
-  </section>
-
-  <div class="bar"><i id="barFill"></i></div>
-  <div class="meta"><span id="pText"></span><span id="pNext"></span></div>
-
-  <div id="list"></div>
+  </div>
 </div>
 
 <script>
@@ -132,18 +149,20 @@ button:hover{border-color:var(--muted)}
   var KEY="scommesse-dashboard-v3";
   var MAX=500;
   var $=function(id){return document.getElementById(id)};
-  var eur=new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"});
-  var dfmt=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"2-digit",year:"numeric"});
+  var eur=new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR",minimumFractionDigits:0,maximumFractionDigits:2});
   function pad(x){return x<10?"0"+x:""+x}
   function isoOf(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
   function parseD(iso){var p=iso.split("-");return new Date(+p[0],+p[1]-1,+p[2])}
   function addDays(iso,n){var d=parseD(iso);d.setDate(d.getDate()+n);return d}
   function todayISO(){return isoOf(new Date())}
+  function shortD(iso){var d=parseD(iso);return pad(d.getDate())+"/"+pad(d.getMonth()+1)}
   function num(v){var x=parseFloat(String(v).replace(",","."));return isNaN(x)?null:x}
   function fmtIn(x){return String(+x.toFixed(2))}
 
-  var state={stake:10,mult:1.1,target:100,ttype:"final",round:false,start:todayISO(),ov:{},mov:{},gaps:{},won:{}};
+  var state={stake:10,mult:1.1,target:100,ttype:"final",round:false,start:todayISO(),ov:{},mov:{},gaps:{},won:{},frz:{}};
   var curDates=[];
+  var lastRows=null;
+  var firstOpenIdx=-1;
 
   function load(){
     try{
@@ -161,15 +180,19 @@ button:hover{border-color:var(--muted)}
     var goalNet=state.ttype==="profit"?target:target-stake;
     var rows=[],prevR=stake,cum=0,reached=false;
     for(var i=0;i<MAX;i++){
-      var p,ovr=false;
-      if(i===0)p=stake;
-      else if(state.ov[i]>0){p=state.ov[i];ovr=true}
-      else p=prevR;
-      var mvr=state.mov[i]>1,m=mvr?state.mov[i]:mult;
-      var r=p*m;
-      if(state.round){r=Math.round(r);if(r<=p)r=p+1}
+      var p,r,m,ovr=false,mvr=false,frozen=false;
+      if(state.frz[i]){
+        p=state.frz[i].p;m=state.frz[i].m;r=state.frz[i].r;frozen=true;
+      }else{
+        if(i===0)p=stake;
+        else if(state.ov[i]>0){p=state.ov[i];ovr=true}
+        else p=prevR;
+        mvr=state.mov[i]>1;m=mvr?state.mov[i]:mult;
+        r=p*m;
+        if(state.round){r=Math.round(r);if(r<=p)r=p+1}
+      }
       cum+=r-p;
-      rows.push({p:p,r:r,cum:cum,ovr:ovr,m:m,mvr:mvr});
+      rows.push({p:p,r:r,cum:cum,ovr:ovr,m:m,mvr:mvr,frozen:frozen});
       prevR=r;
       if(cum>=goalNet-1e-9){reached=true;break}
     }
@@ -178,73 +201,112 @@ button:hover{border-color:var(--muted)}
 
   function makeRow(i){
     var d=document.createElement("div");
-    d.className="bet";d.dataset.i=i;
+    d.className="bet grid";d.dataset.i=i;
     d.innerHTML=
-      '<div class="top">'+
-        '<span class="n"></span>'+
-        '<input type="date" class="date" data-k="date" aria-label="Data scommessa '+(i+1)+'">'+
-        '<label class="wonl"><input type="checkbox" data-k="won" aria-label="Scommessa '+(i+1)+' vinta"></label>'+
-      '</div>'+
-      '<div class="f stake"><span>Puntata</span><input type="number" inputmode="decimal" step="any" min="0" data-k="s" aria-label="Puntata scommessa '+(i+1)+'"></div>'+
-      '<div class="f mult"><span>Moltipl.</span><input type="number" inputmode="decimal" step="any" min="1" data-k="m" aria-label="Moltiplicatore scommessa '+(i+1)+'"></div>'+
-      '<div class="f win"><span data-o="wl">Ritorno</span><b data-o="r"></b></div>';
+      '<span class="n"></span>'+
+      '<label class="dt"><span data-o="d"></span><input type="date" data-k="date" aria-label="Data scommessa '+(i+1)+'"></label>'+
+      '<input type="number" inputmode="decimal" step="any" min="0" data-k="s" aria-label="Puntata scommessa '+(i+1)+'">'+
+      '<input type="number" inputmode="decimal" step="any" min="1" data-k="m" aria-label="Moltiplicatore scommessa '+(i+1)+'">'+
+      '<b class="r" data-o="r"></b>'+
+      '<input type="checkbox" data-k="won" aria-label="Scommessa '+(i+1)+' vinta">';
     return d;
+  }
+
+  // porta la scommessa attuale nel terzo alto dell'elenco
+  function focusCurrent(){
+    var list=$("list");
+    requestAnimationFrame(function(){
+      var el=firstOpenIdx>=0?list.children[firstOpenIdx]:list.lastElementChild;
+      if(!el)return;
+      list.scrollTop=Math.max(0,el.offsetTop-list.clientHeight/3);
+    });
+  }
+
+  function setWon(i,on){
+    if(on){
+      state.won[i]=true;
+      var row=lastRows&&lastRows[i];
+      if(row)state.frz[i]={p:row.p,m:row.m,r:row.r};
+    }else{
+      delete state.won[i];delete state.frz[i];
+    }
+    save();update(true);focusCurrent();
   }
 
   function update(force){
     var list=$("list"),i;
     var res=compute();
     if(!res){
-      $("bigN").textContent="–";$("bigL").textContent="scommesse";
-      $("line").innerHTML='<span class="err">Puntata e target maggiori di 0, moltiplicatore maggiore di 1.</span>';
-      $("line2").textContent="";list.innerHTML="";
-      $("barFill").style.width="0";$("pText").textContent="";$("pNext").textContent="";
+      lastRows=null;firstOpenIdx=-1;
+      $("bigN").textContent="–";$("bigL").textContent="";
+      $("range").innerHTML='<span class="err">Controlla i valori</span>';
+      $("sub").textContent="Puntata e target > 0, moltiplicatore > 1";
+      $("barFill").style.width="0";
+      $("nowL").textContent="";$("nowV").textContent="–";
+      $("win").disabled=true;$("undo").disabled=true;
+      list.innerHTML="";
       return;
     }
     var rows=res.rows,n=rows.length,last=rows[n-1];
+    lastRows=rows;
 
     var dates=[];
     for(i=0;i<n;i++){dates.push(i===0?state.start:isoOf(addDays(dates[i-1],state.gaps[i]!=null?state.gaps[i]:1)))}
     curDates=dates;
 
-    var endAmount=state.stake+last.cum;
+    var endAmount=rows[0].p+last.cum;
     if(res.reached){
       $("bigN").textContent=n;
       $("bigL").textContent=n===1?"scommessa":"scommesse";
-      $("line").textContent=eur.format(state.stake)+" → "+eur.format(endAmount);
-      $("line2").textContent="Ultima puntata "+eur.format(last.p)+" · guadagno "+eur.format(last.cum)+" · fine "+dfmt.format(parseD(dates[n-1]));
+      $("range").textContent=eur.format(rows[0].p)+" → "+eur.format(endAmount);
+      $("sub").textContent="Ultima puntata "+eur.format(last.p)+" · guadagno "+eur.format(last.cum)+" · fine "+shortD(dates[n-1]);
     }else{
       $("bigN").textContent="–";
-      $("bigL").textContent="target non raggiungibile";
-      $("line").textContent="Aumenta il moltiplicatore o abbassa il target.";
-      $("line2").textContent="";
+      $("bigL").textContent="non raggiungibile";
+      $("range").textContent="";
+      $("sub").textContent="Aumenta il moltiplicatore o abbassa il target";
     }
 
     var firstOpen=-1,wonCount=0;
     for(i=0;i<n;i++){if(!state.won[i]){firstOpen=i;break}}
     for(i=0;i<n;i++){if(state.won[i])wonCount++}
+    firstOpenIdx=firstOpen;
     $("barFill").style.width=(100*wonCount/n)+"%";
-    $("pText").textContent=wonCount+" vinte su "+n;
-    $("pNext").textContent=firstOpen>=0?"Prossima puntata "+eur.format(rows[firstOpen].p):(res.reached?"Target raggiunto":"");
+
+    if(firstOpen>=0){
+      $("nowL").textContent="Prossima · #"+(firstOpen+1)+" · "+wonCount+" vinte su "+n;
+      $("nowV").textContent=eur.format(rows[firstOpen].p)+" → "+eur.format(rows[firstOpen].r);
+      $("nowV").className="";
+      $("win").disabled=false;
+    }else{
+      $("nowL").textContent=wonCount+" vinte su "+n;
+      $("nowV").textContent=res.reached?"Target raggiunto ✓":"Tutte vinte";
+      $("nowV").className="done";
+      $("win").disabled=true;
+    }
+    $("undo").disabled=wonCount===0;
 
     while(list.children.length<n)list.appendChild(makeRow(list.children.length));
     while(list.children.length>n)list.removeChild(list.lastChild);
 
     for(i=0;i<n;i++){
       var el=list.children[i],row=rows[i];
-      el.className="bet"+(state.won[i]?" won":"")+(i===firstOpen?" now":"");
+      el.className="bet grid"+(state.won[i]?" won":"")+(i===firstOpen?" now":"")+(res.reached&&i===n-1?" tgt":"");
       el.querySelector(".n").textContent=i+1;
       var di=el.querySelector('[data-k="date"]');
       di.value=dates[i];
+      di.title=dates[i];
       if(i>0)di.min=dates[i-1];else di.removeAttribute("min");
+      el.querySelector('[data-o="d"]').textContent=shortD(dates[i]);
       el.querySelector('[data-k="won"]').checked=!!state.won[i];
       var si=el.querySelector('[data-k="s"]');
       if(force||document.activeElement!==si)si.value=fmtIn(row.p);
-      si.classList.toggle("ovr",row.ovr);
+      si.classList.toggle("f-ovr",row.ovr);
+      si.disabled=row.frozen;
       var mi=el.querySelector('[data-k="m"]');
       if(force||document.activeElement!==mi)mi.value=String(+row.m.toFixed(3));
-      mi.classList.toggle("ovr",row.mvr);
-      el.querySelector('[data-o="wl"]').textContent=(res.reached&&i===n-1)?"Ritorno · target":"Ritorno";
+      mi.classList.toggle("f-ovr",row.mvr);
+      mi.disabled=row.frozen;
       el.querySelector('[data-o="r"]').textContent=eur.format(row.r);
     }
   }
@@ -258,11 +320,16 @@ button:hover{border-color:var(--muted)}
   bind("start",function(){state.start=this.value||todayISO()},"change");
 
   var list=$("list");
+  list.addEventListener("click",function(e){
+    var t=e.target;
+    if(t&&t.dataset&&t.dataset.k==="date"&&t.showPicker){try{t.showPicker()}catch(x){}}
+  });
   list.addEventListener("input",function(e){
     var t=e.target;
     var k=t.dataset&&t.dataset.k;
     if(k!=="s"&&k!=="m")return;
     var i=+t.closest(".bet").dataset.i,v=num(t.value);
+    if(state.frz[i])return;
     if(k==="m"){if(v>1)state.mov[i]=v;else delete state.mov[i];save();update(false);return}
     if(i===0){
       if(!(v>0))return;
@@ -277,10 +344,7 @@ button:hover{border-color:var(--muted)}
     if(!k)return;
     var i=+t.closest(".bet").dataset.i;
     if(k==="s"||k==="m"){update(true);return}
-    if(k==="won"){
-      if(t.checked)state.won[i]=true;else delete state.won[i];
-      save();update(false);return;
-    }
+    if(k==="won"){setWon(i,t.checked);return}
     if(k==="date"){
       var v=t.value;
       if(!v){update(true);return}
@@ -292,11 +356,27 @@ button:hover{border-color:var(--muted)}
       save();update(false);
     }
   });
+
+  $("win").addEventListener("click",function(){if(firstOpenIdx>=0)setWon(firstOpenIdx,true)});
+  $("undo").addEventListener("click",function(){
+    var idx=-1;
+    for(var k in state.won){if(+k>idx)idx=+k}
+    if(idx>=0)setWon(idx,false);
+  });
+
+  // pannello opzioni
+  function openSheet(){$("sheet").hidden=false}
+  function closeSheet(){$("sheet").hidden=true}
+  $("gear").addEventListener("click",openSheet);
+  $("close").addEventListener("click",closeSheet);
+  $("bk").addEventListener("click",closeSheet);
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeSheet()});
+
   $("resetStakes").addEventListener("click",function(){state.ov={};state.mov={};save();update(true)});
   $("resetDates").addEventListener("click",function(){state.gaps={};save();update(false)});
-  $("resetWins").addEventListener("click",function(){state.won={};save();update(false)});
+  $("resetWins").addEventListener("click",function(){state.won={};state.frz={};save();update(true);focusCurrent()});
 
-  load();update(true);
+  load();update(true);focusCurrent();
 })();
 </script>
 </body>
