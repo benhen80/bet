@@ -1,164 +1,426 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>BetTrack — Dashboard scommesse</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Budget → Target</title>
 <style>
-:root{--bg:#0b1020;--panel:#121a2e;--panel2:#17223a;--line:#26334e;--text:#eef3ff;--muted:#93a2bf;--accent:#7c9cff;--mint:#57e3bd;--amber:#ffca75;--red:#ff7d91}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top left,#17264a 0,#0b1020 48%,#080c17 100%);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);min-height:100vh}
-.wrap{max-width:1200px;margin:auto;padding:32px 22px 50px;padding-bottom:calc(50px + env(safe-area-inset-bottom))}.top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:28px}.brand{display:flex;align-items:center;gap:13px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#8aa7ff,#5a6ef0);display:grid;place-items:center;font-size:23px;box-shadow:0 8px 24px #526bf044}.eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mint);font-weight:800}.brand h1{margin:3px 0 0;font-size:25px;letter-spacing:-.6px}.topnote{color:var(--muted);font-size:13px;text-align:right}.topnote strong{color:var(--text);display:block;font-size:14px;margin-bottom:4px}
-h2{font-size:16px;margin:0 0 18px}.sub{color:var(--muted);font-size:13px;margin-top:-9px;margin-bottom:20px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.stat,.panel{background:linear-gradient(145deg,#151f35ee,#10182aee);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px #00000018}.stat{padding:18px}.stat .label{font-size:12px;color:var(--muted);margin-bottom:10px}.stat .value{font-size:27px;font-weight:750;letter-spacing:-.7px}.stat .hint{font-size:11px;color:var(--muted);margin-top:7px}.mint{color:var(--mint)}.blue{color:var(--accent)}.amber{color:var(--amber)}
-.layout{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start}.panel{padding:22px}.field{margin-bottom:15px}.field label{display:block;color:#bac6df;font-size:12px;font-weight:650;margin-bottom:7px}.field input,.field select{width:100%;background:#0b1222;border:1px solid #2b3956;border-radius:10px;padding:12px 13px;color:var(--text);font:inherit;outline:none;transition:.2s}.field input:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c9cff20}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px}.calc{background:#0b1425;border:1px solid #263653;border-radius:13px;padding:14px;margin:5px 0 17px}.calcrow{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted);padding:5px 0}.calcrow strong{color:var(--text);font-size:13px}.calcrow.total{border-top:1px solid #283752;margin-top:6px;padding-top:11px}.calcrow.total strong{color:var(--mint);font-size:17px}.btn{border:0;border-radius:11px;padding:12px 15px;font-weight:750;font-size:13px;cursor:pointer;transition:transform .15s,opacity .15s}.btn:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,#91aaff,#6d7ff3);color:#0b1222;width:100%}.secondary{background:#202d49;color:var(--text);border:1px solid #334363}.danger{background:#3a2030;color:#ffb4c0;border:1px solid #673348}.btnrow{display:flex;gap:9px}.btnrow .btn{flex:1}.notice{color:var(--muted);font-size:11px;line-height:1.5;margin-top:13px}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}.filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filters input,.filters select{background:#0b1222;border:1px solid #2b3956;border-radius:9px;color:var(--text);padding:9px 10px;font:inherit;font-size:12px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:700px}th{text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#8191b0;padding:12px 10px;border-bottom:1px solid var(--line)}td{padding:14px 10px;border-bottom:1px solid #202b43;font-size:13px;white-space:nowrap}tbody tr:hover{background:#ffffff05}tbody tr:last-child td{border-bottom:0}.datecell{color:#b9c6e2}.money{font-weight:750}.pill{display:inline-block;border-radius:7px;padding:5px 8px;background:#1b2944;color:#c7d4f5;font-size:11px;font-weight:700}.actions{display:flex;gap:6px}.mini{border:1px solid #334363;background:#1c2942;color:#dce5ff;border-radius:8px;padding:7px 9px;cursor:pointer;font-size:11px}.mini.del{color:#ffabb8;background:#321d2a;border-color:#593042}.empty{text-align:center;padding:35px;color:var(--muted);font-size:13px}.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#7282a1;font-size:11px;margin-top:17px}.progress{height:6px;background:#24304a;border-radius:20px;overflow:hidden;margin-top:9px}.progress span{height:100%;display:block;background:linear-gradient(90deg,var(--accent),var(--mint));width:0;transition:width .2s}
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    margin: 0;
+    padding: 24px;
+  }
+  h1 { font-size: 20px; margin: 0 0 16px; font-weight: 600; }
+  .card {
+    background: #1e293b;
+    border-radius: 14px;
+    padding: 20px;
+    max-width: 760px;
+    margin: 0 auto 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  label {
+    display: block;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 14px;
+  }
+  input:focus, select:focus { outline: none; border-color: #38bdf8; }
+  .result {
+    background: linear-gradient(135deg, #0ea5e9, #6366f1);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .result .big {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .result .sub {
+    font-size: 13px;
+    opacity: .9;
+    margin-top: 6px;
+  }
+  .detail {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+    font-size: 13px;
+  }
+  .detail div {
+    background: #0f172a;
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .detail span:first-child { color: #94a3b8; }
+  .warn { color: #f87171; font-size: 13px; margin-top: 10px; text-align:center; }
 
-.planner-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 14px}.planner-grid .field{margin-bottom:12px}
-.planner-results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:8px}
-.planmetric{background:#0b1425;border:1px solid #263653;border-radius:12px;padding:14px;min-width:0}
-.planmetric span{display:block;font-size:11px;color:var(--muted);margin-bottom:9px}.planmetric strong{font-size:22px;overflow-wrap:anywhere}
-.planner-results .notice{grid-column:1/-1;margin:0}
-@media(max-width:700px){.planner-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.planner-results{grid-template-columns:1fr}.planmetric{display:flex;justify-content:space-between;align-items:center;gap:12px}.planmetric span{margin:0;max-width:60%}.planmetric strong{font-size:20px}.planner-results .notice{grid-column:auto}}
-@media(max-width:390px){.planner-grid{grid-template-columns:1fr}.wrap{padding:17px 10px}.brand h1{font-size:21px}.stat .value{font-size:19px}.stat .label{font-size:11px}.panel{padding:14px}}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start}.topnote{max-width:150px}}@media(max-width:480px){.wrap{padding:20px 12px}.stats{gap:9px}.stat{padding:13px}.stat .value{font-size:21px}.panel{padding:16px}.topnote{display:none}.brand h1{font-size:22px}.twocol{gap:9px}}
+  /* --- STORICO --- */
+  .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 0;
+  }
+  .history-header h2 {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chev {
+    transition: transform .2s;
+    display: inline-block;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  .collapsed .chev { transform: rotate(-90deg); }
+  .history-body {
+    margin-top: 16px;
+    overflow: hidden;
+    transition: max-height .3s ease, opacity .2s;
+    max-height: 2000px;
+    opacity: 1;
+  }
+  .collapsed .history-body {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+  }
+  .history-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .history-summary div {
+    background: #0f172a;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  .history-summary span { color: #94a3b8; display: block; font-size: 11px; margin-bottom: 2px; }
+  .history-summary strong { font-size: 14px; }
+  .add-form {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr auto;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .add-form input, .add-form select { padding: 8px 10px; font-size: 13px; }
+  button {
+    background: #38bdf8;
+    color: #0f172a;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  button:hover { background: #7dd3fc; }
+  button.ghost {
+    background: transparent;
+    color: #94a3b8;
+    border: 1px solid #334155;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  button.ghost:hover { color: #f87171; border-color: #f87171; background: transparent; }
+  button.del {
+    background: transparent;
+    color: #f87171;
+    padding: 4px 8px;
+    font-size: 14px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 6px;
+    border-bottom: 1px solid #334155;
+  }
+  th { color: #94a3b8; font-weight: 500; font-size: 11px; text-transform: uppercase; }
+  .win { color: #4ade80; font-weight: 600; }
+  .lose { color: #f87171; font-weight: 600; }
+  .empty { color: #64748b; text-align: center; padding: 16px; font-size: 13px; }
+
+  @media (max-width: 520px) {
+    .grid, .detail, .history-summary { grid-template-columns: 1fr 1fr; }
+    .add-form { grid-template-columns: 1fr 1fr; }
+    .add-form button { grid-column: span 2; }
+    .result .big { font-size: 32px; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <div class="brand"><div class="logo">↗</div><div><div class="eyebrow">PERSONAL TRACKER</div><h1>BetTrack <span style="color:var(--accent)">/</span> Dashboard</h1></div></div>
-    <div class="topnote"><strong>Controlla i numeri, non inseguire le perdite.</strong>Tracker personale · dati salvati su questo dispositivo</div>
-  </header>
 
-  <section class="stats">
-    <div class="stat"><div class="label">Puntate registrate</div><div class="value blue" id="sCount">0</div><div class="hint" id="sCountHint">Nel periodo selezionato</div></div>
-    <div class="stat"><div class="label">Totale puntato</div><div class="value" id="sStake">€ 0,00</div><div class="hint">Somma delle puntate</div></div>
-    <div class="stat"><div class="label">Vincita potenziale</div><div class="value mint" id="sReturn">€ 0,00</div><div class="hint">Ritorno lordo stimato</div></div>
-    <div class="stat"><div class="label">Profitto potenziale</div><div class="value amber" id="sProfit">€ 0,00</div><div class="hint">Ritorno lordo meno puntata</div></div>
-  </section>
+<!-- ============ PIANO ============ -->
+<div class="card">
+  <h1>🎯 Budget → Target</h1>
 
-
-  <section class="panel" style="margin-bottom:18px">
-    <h2>🎯 Pianificatore obiettivo</h2>
-    <p class="sub">Indica a quale importo vuoi arrivare e imposta puntata e moltiplicatore ipotetici. Il calcolo è matematico, non una previsione di vincita.</p>
-    <div class="planner-grid">
-      <div class="field"><label for="planTarget">Importo finale desiderato (€)</label><input id="planTarget" type="number" min="0.01" step="0.01" placeholder="Es. 100"></div>
-      <div class="field"><label for="planStart">Capitale iniziale (€)</label><input id="planStart" type="number" min="0" step="0.01" value="10"></div>
-      <div class="field"><label for="planStake">Puntata per giocata (€)</label><input id="planStake" type="number" min="0.01" step="0.01" value="10"></div>
-      <div class="field"><label for="planMult">Moltiplicatore ipotetico</label><input id="planMult" type="number" min="1.01" step="0.01" value="2.00"></div>
-      <div class="field"><label for="planMode">Come conteggiare le vincite</label><select id="planMode"><option value="fixed">Puntata fissa a ogni giocata</option><option value="compound">Reinvesti tutto il ritorno (teorico)</option></select></div>
-      <div class="field" style="display:flex;align-items:end"><button class="btn primary" id="planBtn" type="button">Calcola puntate</button></div>
+  <div class="grid">
+    <div>
+      <label>Budget iniziale (€)</label>
+      <input type="number" id="budget" value="100" min="0" step="10">
     </div>
-    <div class="planner-results" id="plannerResults" aria-live="polite">
-      <div class="planmetric"><span>Puntate teoriche necessarie</span><strong id="planCount">—</strong></div>
-      <div class="planmetric"><span>Ritorno lordo per vincita</span><strong id="planReturn">—</strong></div>
-      <div class="planmetric"><span>Profitto per vincita</span><strong id="planProfit">—</strong></div>
-      <p class="notice" id="planNote">Inserisci un obiettivo e premi “Calcola puntate”. Il conteggio ipotizza che ogni giocata vinca: nella realtà non è garantito e le perdite possono aumentare il capitale necessario.</p>
+    <div>
+      <label>Vincita target (€)</label>
+      <input type="number" id="target" value="10000" min="0" step="100">
     </div>
-  </section>
+    <div>
+      <label>Moltiplicatore</label>
+      <input type="number" id="mult" value="2" min="1.01" step="0.1">
+    </div>
+    <div>
+      <label>Data inizio</label>
+      <input type="date" id="start">
+    </div>
+  </div>
 
-  <main class="layout">
-    <section class="panel">
-      <h2 id="formTitle">＋ Registra una scommessa</h2>
-      <p class="sub">Inserisci i dati e scegli la data: puoi registrare più giocate nello stesso giorno.</p>
-      <form id="betForm">
-        <div class="field"><label for="betDate">Data della scommessa</label><input id="betDate" type="date" required></div>
-        <div class="twocol">
-          <div class="field"><label for="stake">Puntata (€)</label><input id="stake" type="number" min="0.01" step="0.01" placeholder="10,00" required></div>
-          <div class="field"><label for="multiplier">Moltiplicatore</label><input id="multiplier" type="number" min="1.01" step="0.01" placeholder="2,00" required></div>
-        </div>
-        <div class="field"><label for="target">Vincita target (€)</label><input id="target" type="number" min="0" step="0.01" placeholder="20,00" required></div>
-        <div class="field"><label for="description">Evento / nota (facoltativo)</label><input id="description" type="text" maxlength="90" placeholder="Es. Tennis · semifinale"></div>
-        <div class="calc">
-          <div class="calcrow"><span>Ritorno lordo stimato</span><strong id="calcReturn">€ 0,00</strong></div>
-          <div class="calcrow"><span>Profitto potenziale</span><strong id="calcProfit">€ 0,00</strong></div>
-          <div class="calcrow"><span>Differenza dal target (ritorno lordo)</span><strong id="calcGap">€ 0,00</strong></div>
-          <div class="progress"><span id="targetProgress"></span></div>
-        </div>
-        <button class="btn primary" type="submit" id="saveBtn">＋ Aggiungi scommessa</button>
-        <div class="btnrow" id="editButtons" style="display:none;margin-top:9px"><button class="btn secondary" type="button" id="cancelEdit">Annulla modifica</button></div>
-        <p class="notice">Il ritorno lordo è puntata × moltiplicatore. Il profitto potenziale è ritorno lordo − puntata. Il target è confrontato con il ritorno lordo. Sono stime, non previsioni di vincita.</p>
-      </form>
-    </section>
+  <div class="result">
+    <div class="big" id="days">—</div>
+    <div class="sub" id="daysLabel">giorni necessari</div>
+  </div>
 
-    <section class="panel">
-      <div class="toolbar">
-        <div><h2 style="margin-bottom:4px">Le tue scommesse</h2><div style="font-size:12px;color:var(--muted)" id="tableSub">Tutte le registrazioni</div></div>
-        <div class="filters">
-          <input id="filterDate" type="date" aria-label="Filtra per data">
-          <select id="filterSort" aria-label="Ordina"><option value="new">Più recenti</option><option value="old">Più vecchie</option><option value="stake">Puntata maggiore</option></select>
-          <button class="btn secondary" id="clearFilter" type="button">Tutte</button>
-        </div>
-      </div>
-      <div class="tablewrap">
-        <table><thead><tr><th>Data / Evento</th><th>Puntata</th><th>Quota</th><th>Target</th><th>Ritorno</th><th>Profitto</th><th>Azioni</th></tr></thead>
-          <tbody id="betRows"></tbody>
-        </table>
-        <div class="empty" id="emptyState">Nessuna scommessa registrata.<br>Usa il modulo per aggiungere la prima.</div>
-      </div>
-      <div class="foot"><span id="storageInfo">Salvataggio automatico attivo su questo browser.</span><button class="mini" id="exportBtn" type="button">Esporta CSV</button></div>
-    </section>
-  </main>
-  <div class="foot" style="margin-top:22px"><span>BetTrack · uso personale</span><span>Gioca responsabilmente: stabilisci un limite e non inseguire le perdite.</span></div>
+  <div class="detail">
+    <div><span>Data raggiungimento</span><strong id="endDate">—</strong></div>
+    <div><span>Capitale finale</span><strong id="finalCap">—</strong></div>
+    <div><span>Raddoppi richiesti</span><strong id="doublings">—</strong></div>
+    <div><span>Puntate totali</span><strong id="bets">—</strong></div>
+  </div>
+
+  <div class="warn" id="warn"></div>
 </div>
+
+<!-- ============ STORICO ============ -->
+<div class="card" id="historyCard">
+  <div class="history-header" onclick="toggleHistory()">
+    <h2>📒 Storico puntate <span class="chev">▼</span></h2>
+    <button class="ghost" onclick="event.stopPropagation(); resetHistory()">Reset</button>
+  </div>
+
+  <div class="history-body">
+    <div class="history-summary">
+      <div><span>Puntate</span><strong id="sBets">0</strong></div>
+      <div><span>Vinte / Perse</span><strong id="sWL">0 / 0</strong></div>
+      <div><span>Capitale attuale</span><strong id="sCap">—</strong></div>
+      <div><span>Giorni al target</span><strong id="sLeft">—</strong></div>
+    </div>
+
+    <div class="add-form">
+      <input type="date" id="hDate">
+      <input type="number" id="hAmount" placeholder="Importo €" step="1" min="0">
+      <select id="hResult">
+        <option value="win">Vinta ✓</option>
+        <option value="lose">Persa ✗</option>
+      </select>
+      <button onclick="addBet()">Aggiungi</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Importo</th>
+          <th>Esito</th>
+          <th>Variazione</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="betRows">
+        <tr><td colspan="5" class="empty">Nessuna puntata registrata</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <script>
-(() => {
- const $ = id => document.getElementById(id);
- const euro = n => new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(Number(n)||0);
- const today = () => {const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
- let bets = [];
- let editingId = null;
- try { bets = JSON.parse(localStorage.getItem('bettrack_bets_v1') || '[]'); if(!Array.isArray(bets)) bets=[]; } catch(e){bets=[]}
- $('betDate').value = today();
+const $ = id => document.getElementById(id);
+const KEY = 'betHistory_v1';
 
- function persist(){try{localStorage.setItem('bettrack_bets_v1',JSON.stringify(bets));$('storageInfo').textContent='Salvataggio automatico attivo su questo browser.'}catch(e){$('storageInfo').textContent='Impossibile salvare automaticamente: esporta il CSV per conservare i dati.'}}
- function values(){return {stake:Math.max(0,Number($('stake').value)||0),mult:Math.max(0,Number($('multiplier').value)||0),target:Math.max(0,Number($('target').value)||0)}}
- function calc(){const v=values(), ret=v.stake*v.mult, profit=ret-v.stake, gap=ret-v.target; $('calcReturn').textContent=euro(ret);$('calcProfit').textContent=euro(profit);$('calcGap').textContent=(gap>=0?'+':'')+euro(gap);$('calcGap').style.color=gap>=0?'var(--mint)':'var(--amber)';$('targetProgress').style.width=(v.target>0?Math.min(100,ret/v.target*100):0)+'%'}
- function filtered(){let list=[...bets], fd=$('filterDate').value;if(fd)list=list.filter(b=>b.date===fd);const sort=$('filterSort').value;if(sort==='old')list.sort((a,b)=>a.date.localeCompare(b.date)||a.created-b.created);else if(sort==='stake')list.sort((a,b)=>b.stake-a.stake);else list.sort((a,b)=>b.date.localeCompare(a.date)||b.created-a.created);return list}
- function render(){
-  const list=filtered(), totalStake=list.reduce((s,b)=>s+b.stake,0), totalReturn=list.reduce((s,b)=>s+b.stake*b.mult,0), totalProfit=totalReturn-totalStake;
-  $('sCount').textContent=list.length;$('sCountHint').textContent=$('filterDate').value?'Per '+new Date($('filterDate').value+'T12:00:00').toLocaleDateString('it-IT'):'Nel periodo selezionato';
-  $('sStake').textContent=euro(totalStake);$('sReturn').textContent=euro(totalReturn);$('sProfit').textContent=euro(totalProfit);$('sProfit').style.color=totalProfit>=0?'var(--amber)':'var(--red)';
-  $('tableSub').textContent=$('filterDate').value?`Risultati del ${new Date($('filterDate').value+'T12:00:00').toLocaleDateString('it-IT')}`:`${list.length} registrazioni totali`;
-  $('betRows').innerHTML='';$('emptyState').style.display=list.length?'none':'block';
-  for(const b of list){const tr=document.createElement('tr');const ret=b.stake*b.mult, profit=ret-b.stake;
-   const td=(txt,cls='')=>{const x=document.createElement('td');if(cls)x.className=cls;x.textContent=txt;return x};
-   const d=new Date(b.date+'T12:00:00').toLocaleDateString('it-IT');
-   const first=td(d+(b.note?' · '+b.note:''),'datecell');first.style.maxWidth='190px';first.style.overflow='hidden';first.style.textOverflow='ellipsis';tr.append(first,td(euro(b.stake),'money'),td('× '+Number(b.mult).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})),td(euro(b.target)),td(euro(ret),'money'),td((profit>=0?'+':'')+euro(profit),'money'));
-   const actions=td();const box=document.createElement('div');box.className='actions';const edit=document.createElement('button');edit.className='mini';edit.textContent='Modifica';edit.onclick=()=>startEdit(b.id);const del=document.createElement('button');del.className='mini del';del.textContent='Elimina';del.onclick=()=>{if(confirm('Eliminare questa registrazione?')){bets=bets.filter(x=>x.id!==b.id);persist();render();if(editingId===b.id)resetForm()}};box.append(edit,del);actions.append(box);tr.append(actions);$('betRows').append(tr);
+// ---------- UTIL ----------
+const fmtEur = n => n.toLocaleString('it-IT', { style:'currency', currency:'EUR', maximumFractionDigits: 2 });
+const parseNum = v => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+
+function getPlan() {
+  return {
+    B: parseNum($('budget').value),
+    T: parseNum($('target').value),
+    M: parseNum($('mult').value) || 2,
+    start: new Date($('start').value || new Date())
+  };
+}
+
+// ---------- STORICO ----------
+let history = JSON.parse(localStorage.getItem(KEY) || '[]');
+
+function saveHistory() {
+  localStorage.setItem(KEY, JSON.stringify(history));
+}
+
+function toggleHistory() {
+  $('historyCard').classList.toggle('collapsed');
+}
+
+function addBet() {
+  const date = $('hDate').value;
+  const amount = parseNum($('hAmount').value);
+  const result = $('hResult').value;
+  if (!date || amount <= 0) return;
+
+  history.push({ id: Date.now() + Math.random(), date, amount, result });
+  history.sort((a,b) => a.date.localeCompare(b.date));
+  saveHistory();
+
+  $('hAmount').value = '';
+  renderHistory();
+  calc();
+}
+
+function removeBet(id) {
+  history = history.filter(b => b.id !== id);
+  saveHistory();
+  renderHistory();
+  calc();
+}
+
+function resetHistory() {
+  if (!confirm('Svuotare tutto lo storico puntate?')) return;
+  history = [];
+  saveHistory();
+  renderHistory();
+  calc();
+}
+
+function renderHistory() {
+  const tbody = $('betRows');
+  const { M } = getPlan();
+
+  if (history.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">Nessuna puntata registrata</td></tr>';
+  } else {
+    tbody.innerHTML = history.map(b => {
+      const delta = b.result === 'win' ? b.amount * (M - 1) : -b.amount;
+      return `<tr>
+        <td>${new Date(b.date).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'})}</td>
+        <td>${fmtEur(b.amount)}</td>
+        <td class="${b.result === 'win' ? 'win' : 'lose'}">${b.result === 'win' ? 'Vinta' : 'Persa'}</td>
+        <td class="${delta >= 0 ? 'win' : 'lose'}">${delta >= 0 ? '+' : ''}${fmtEur(delta)}</td>
+        <td><button class="del" onclick="removeBet(${b.id})">✕</button></td>
+      </tr>`;
+    }).join('');
   }
- }
- function resetForm(){editingId=null;$('betForm').reset();$('betDate').value=today();$('formTitle').textContent='＋ Registra una scommessa';$('saveBtn').textContent='＋ Aggiungi scommessa';$('editButtons').style.display='none';calc()}
- function startEdit(id){const b=bets.find(x=>x.id===id);if(!b)return;editingId=id;$('betDate').value=b.date;$('stake').value=b.stake;$('multiplier').value=b.mult;$('target').value=b.target;$('description').value=b.note||'';$('formTitle').textContent='✎ Modifica scommessa';$('saveBtn').textContent='Salva modifiche';$('editButtons').style.display='flex';calc();window.scrollTo({top:0,behavior:'smooth'})}
- $('betForm').addEventListener('submit',e=>{e.preventDefault();const v=values();if(!$('betDate').value||v.stake<=0||v.mult<1.01||v.target<0)return;const item={id:editingId||((Date.now().toString(36))+Math.random().toString(36).slice(2,7)),date:$('betDate').value,stake:v.stake,mult:v.mult,target:v.target,note:$('description').value.trim(),created:editingId?(bets.find(b=>b.id===editingId)?.created||Date.now()):Date.now()};if(editingId)bets=bets.map(b=>b.id===editingId?item:b);else bets.push(item);persist();resetForm();render()});
- ['stake','multiplier','target'].forEach(id=>$(id).addEventListener('input',calc));
- $('cancelEdit').onclick=resetForm;$('filterDate').addEventListener('change',render);$('filterSort').addEventListener('change',render);$('clearFilter').onclick=()=>{$('filterDate').value='';render()};
- $('exportBtn').onclick=()=>{const rows=[['Data','Evento/nota','Puntata EUR','Moltiplicatore','Target EUR','Ritorno lordo EUR','Profitto potenziale EUR'],...filtered().map(b=>[b.date,b.note,b.stake,b.mult,b.target,(b.stake*b.mult).toFixed(2),(b.stake*b.mult-b.stake).toFixed(2)])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='bettrack_'+( $('filterDate').value||today())+'.csv';a.click();URL.revokeObjectURL(url)};
 
- function plan(){
-   const goal=Number($('planTarget').value), start=Number($('planStart').value), stake=Number($('planStake').value), mult=Number($('planMult').value), mode=$('planMode').value;
-   if(!(goal>0)||start<0||!(stake>0)||!(mult>1)){ $('planCount').textContent='—';$('planReturn').textContent='—';$('planProfit').textContent='—';$('planNote').textContent='Inserisci importi validi e un moltiplicatore maggiore di 1.';return; }
-   const ret=stake*mult, profit=ret-stake;
-   $('planReturn').textContent=euro(ret);$('planProfit').textContent=euro(profit);
-   if(start>=goal){$('planCount').textContent='0';$('planNote').textContent='Il capitale iniziale è già pari o superiore all’obiettivo. Il calcolo non considera commissioni o altri costi.';return}
-   if(mode==='fixed'){
-      const count=Math.ceil((goal-start)/profit);
-      $('planCount').textContent=String(count);
-      $('planNote').textContent=`Scenario teorico con puntata fissa di ${euro(stake)} e reinvestimento del solo profitto: ${count} vincite consecutive porterebbero il capitale a circa ${euro(start+count*profit)}. Non è una probabilità né una garanzia; ogni scommessa può essere persa.`;
-   } else {
-      let bankroll=start, count=0;
-      // Reinvest the available bankroll, capped at the entered stake as a minimum planning stake.
-      // This is a simplified growth illustration, not a staking recommendation.
-      if(bankroll<stake){$('planCount').textContent='—';$('planNote').textContent='Con reinvestimento integrale, il capitale iniziale deve essere almeno pari alla puntata iniziale.';return}
-      while(bankroll<goal && count<10000){bankroll*=mult;count++}
-      $('planCount').textContent=count>=10000?'oltre 9.999':String(count);
-      $('planNote').textContent=`Scenario matematico con reinvestimento integrale del capitale a quota ${mult.toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})}: ${count} vincite consecutive trasformerebbero ${euro(start)} in circa ${euro(bankroll)}. È un'ipotesi estremamente ottimistica, non una previsione: una sola perdita può ridurre o azzerare il capitale.`;
-   }
- }
- $('planBtn').addEventListener('click',plan);
- ['planTarget','planStart','planStake','planMult','planMode'].forEach(id=>$(id).addEventListener('input',()=>{if($('planTarget').value)plan()}));
- calc();render();
-})();
+  // riepilogo
+  const wins = history.filter(b => b.result === 'win').length;
+  const losses = history.length - wins;
+  const { B, T, M: mult } = getPlan();
+
+  // capitale attuale = budget + somma variazioni
+  let capital = B;
+  history.forEach(b => {
+    capital += b.result === 'win' ? b.amount * (mult - 1) : -b.amount;
+  });
+  if (capital < 0) capital = 0;
+
+  $('sBets').textContent = history.length;
+  $('sWL').textContent = `${wins} / ${losses}`;
+  $('sCap').textContent = fmtEur(capital);
+
+  // giorni residui al target dal capitale attuale
+  if (capital >= T) {
+    $('sLeft').textContent = '0 (raggiunto)';
+  } else if (capital > 0 && mult > 1) {
+    const n = Math.ceil(Math.log(T / capital) / Math.log(mult));
+    $('sLeft').textContent = n;
+  } else {
+    $('sLeft').textContent = '—';
+  }
+}
+
+// ---------- CALCOLO PIANO ----------
+function calc() {
+  const { B, T, M, start } = getPlan();
+
+  $('warn').textContent = '';
+  if (B <= 0 || T <= 0 || M <= 1 || isNaN(start.getTime())) {
+    ['days','endDate','finalCap','doublings','bets'].forEach(id => $(id).textContent = '—');
+    return;
+  }
+
+  if (T <= B) {
+    $('days').textContent = '0';
+    $('daysLabel').textContent = 'sei già al target';
+    $('endDate').textContent = start.toLocaleDateString('it-IT');
+    $('finalCap').textContent = fmtEur(B);
+    $('doublings').textContent = '0';
+    $('bets').textContent = '0';
+    return;
+  }
+
+  const nDays = Math.ceil(Math.log(T / B) / Math.log(M));
+  const finalCap = B * Math.pow(M, nDays);
+
+  const end = new Date(start);
+  end.setDate(end.getDate() + nDays);
+  const endStr = end.toLocaleDateString('it-IT', { day:'2-digit', month:'2-digit', year:'numeric' });
+
+  $('days').textContent = nDays;
+  $('daysLabel').textContent = nDays === 1 ? 'giorno necessario' : 'giorni necessari';
+  $('endDate').textContent = endStr;
+  $('finalCap').textContent = fmtEur(finalCap);
+  $('doublings').textContent = nDays;
+  $('bets').textContent = nDays;
+
+  if (nDays > 60) {
+    $('warn').textContent = `⚠️ Con moltiplicatore ${M} servono molti giorni: valuta un target più basso o un moltiplicatore più alto.`;
+  }
+}
+
+// ---------- INIT ----------
+$('start').value = new Date().toISOString().slice(0,10);
+$('hDate').value  = $('start').value;
+
+['budget','target','mult','start'].forEach(id =>
+  $(id).addEventListener('input', () => { calc(); renderHistory(); })
+);
+
+renderHistory();
+calc();
 </script>
 </body>
 </html>
